@@ -1,84 +1,97 @@
-#### __Matlab scripts for regional bucket corrections in Chan et. al. 2019__
+# Matlab scripts for groupwise bucket corrections in Chan et. al. 2019
 
-----------------
-
-1. __Preprocess__:
-This folder contains scripts for downloading and preprocessing the ICAODS3.0 data. The proprocessing contains five steps:
- 1. convert ICOADS data from ascii file to mat files.
- 2. Assign missing country information using ID information, and missing measurement methods using assumptions, WMO47 metadata, country, source ID, platform, and deck information.
- 3. Generate winsorized mean of 5-day SST at 1 degree resolution.
- 4. Compute between neighbor standard deviation of SST in each month.  
- 5. Perform Buddy check and quality control.
-
- Step 3-5 are scripts for buddy check following Rayner et al, 2006.  Because this part used to be an independent ICOADS toolbox, you need to change directories in ```ICOADS_OI.m``` for functions to find target files.
-
---------------
-
-From now on, the estimation and correction of regional offset begin.  You need to change directories in ```HM_OI.m``` to run the following scripts.  Also, please make sure that you have functions starting with ```CDC_``` and ```CDF_``` placed in path that Matlab can find.
-
-2. __Pairs__:
-This folder contains scripts that pair and screen SST measurements within 300km and 2days of one another.  It also contains a function that reads data and a look up table of groups that contribute more or less.
-To run these script, diurnal cycle of estimates based on ICOADS buoy data are required, which can be found in the ```Metadata``` folder.
-
-  A sample script is provided in the main folder ```HM_Step_01_Run_Pairs_dup.m``` to run these functions.  ```HM_Step_02_SUM_Pairs_dup``` is another function to pull screened pairs from individual months into one big file.
-
-3. __LME__:
-This folder is a toolbox that compute relative offsets amongst groups of SST measurements based on a linear-mixed-effect model.  
-
- A sample script is provided in the main folder ```HM_Step_03_LME_cor_err_dup.m``` to run the LME analysis.
-
-4. __Correct__:
-This folder contains script to apply regional correction to individual ICOADS3.0 SSTs based on their groupings and generate gridded SST estimates.
-
- Sample scripts in the main folder ```HM_Step_04_Corr_Idv.m``` is to correct the mean offset estimates and offsets of individual groupings, and ```HM_Step_05_Corr_Rnd.m``` is to correct using random samples drawn based on error estimates of offsets, i.e., 1,000 correction members.  Finally, ```HM_Step_06_SUM_Corr.m``` summarizes the statistics of corrections, e.g., trends from 1908-1941, average time series over NP and NA, and PDO indices.  All related functions are placed in the ```Correct``` folder.
-
-5. __Global__:
-This folder contains scripts that merges global correction to raw ICOADS and ICOADS with only regional bucket corrections.  Running ```GC_Step_01_SST_merge_GC_to_ICOADSb.m``` generates ICOADSa and ICOADSb.  Another script ```GC_Step_02_add_GC_to_ICOADSa_statistics.m``` merges key statistics, including those from random ICOADSb members, to generate figures and tables.
-
-6. __Stats__:
-Contains a set of scripts that generate statistics reported in the texts as well as some tables.  Should better to run these lines before generating tables and figures.
-
-7. __Figure__:
-Contains scripts to plot figure in the main text.  We do not recommend modifying any parameters in these scripts unless you know well what each parameter stands for.  I have placed functions starting with ```CDC_``` or ```CDF_``` placed in the External folder.  They are scripts required to generate figures.
-
--------------
-#### Data and metadata
+## System requirements:
 
 
-Because pre-processing ICOADS take substantial amount of time to run, and also to guarantee the full reproduction of our results,  we provide __pre-processed ICOADS 3.0 dataset__ we used in ```.mat``` format ().  You can choose to start from here, which is step 2, pairing of SSTs.
+Several steps in processing are memory and computationally intensive.  Our analysis was run on Harvard Research Computing clusters and uses 100 nodes and 150GB memory per node, and required 2,000 core-hours of computation and 50GB of disk space.  
 
-However, the whole pairing step is also time consuming, and we provide sum of all pairs with setup used in the main text in the following file, which can be found in the ```Data``` folder.
-```
+For purposes of facilitating reproduction we have also provided files resulting from our computation at various stages of the analysis.
+
+All subfolders in this package need to be in the Matlab path `addpath(genpath(pwd))`.  Matlab [m_map](https://www.eoas.ubc.ca/~rich/map.html) toolbox is required, and its path should be specified in [HM_load_package.m](HM_load_package.m).
+
+________________________________
+## A. Preprocess:
+This folder contains scripts for downloading and preprocessing the ICOADS3.0 data. ICOADS3.0 is 28GB and can be downloaded from [RDA dataset 548.0](https://rda.ucar.edu/datasets/ds548.0/#!description).  We have also archived a version [here]().  
+
+Before starting, update [ICOADS_OI.m](Preprocess/__ICOADS_OI.m__) according to where the ICOADS3.0 dataset is stored (`$home_ICOADS3.0`) and run `.m` to generate directories for raw and processed ICOADS3.0 dataset.
+
+0. [ICOADS_Step_00_download.csh](Prerocess/ICOADS_Step_00_download.csh) downloads raw ICOADS3.0 data to folder `$Home_ICOADS3.0/ICOADS_00_raw_zip/` and [ICOADS_Step_00_unzip.sh](Preprocess/ICOADS_Step_00_unzip.sh) unzips the data files.  Unzipped files are stored in `$Home_ICOADS3.0/ICOADS_00_raw/`.
+
+1. [ICOADS_Step_01_ascii2mat.m](Preprocess/ICOADS_Step_01_ascii2mat.m)  converts ICOADS data from ASCII file to .mat files and stores them in `$Home_ICOADS3.0/ICOADS_01_mat_files/`.
+
+2. [ICOADS_Step_02_pre_QC.m](Preprocess/ICOADS_Step_02_pre_QC.m) assigns missing country information and measurement method and outputs files to
+`$Home_ICOADS3.O/ICOADS_02_pre_QC/`
+
+3. [ICOADS_Step_03_WM.m](Preprocess/ICOADS_Step_03_WM.m) generates winsorized mean of 5-day SST at 1 degree resolution.  These gridded data are stored in `$Home_ICOADS3.0/ICOADS_03_WM/`
+
+4. [ICOADS_Step_04_Neighbor_std.m](Preprocess/ICOADS_Step_04_Neighbor_std.m) computes between neighbor standard deviation of SST for each month.
+
+5. [ICOADS_Step_05_Buddy_check.m](Preprocess/ICOADS_Step_05_Buddy_check.m) performs buddy check and other quality controls.  Outputs are preprocessed files stored in `$Home_ICOADS3.0/ICOADS_QCed/`
+
+Step 2 follows Chan et al., submitted, and steps 3-5 follow [Rayner et al. (2006)](https://journals.ametsoc.org/doi/full/10.1175/JCLI3637.1) in performing buddy check.  A [1982-2014 OI-SST daily climatology]() and [other metadata]() should be placed in `$home_ICOADS3.0/ICOADS_Mis/` to run these preprocessing scripts.
+
+________________________________
+## B. Main Code:
+
+This step can be accessed directly without performing preprocessing by downloading the [preprocessed .mat files]() and place them in `$Home_ICOADS3.0/ICOADS_QCed/`.   [HM_OI.m](HM_OI.m) will need to be updated depending on where preprocessed ICOADS3.0 .mat files are hosted.  Please also specify home directory for data generated during the main analysis (`$home_LME`) and run `.m` to generate these directories.
+
+1. __Pairs__ folder contains functions that first [pair SST measurements within 300km and 2days of one another](HM_pair_01_Raw_Pairs_dup.m) and then [screens pairs such that each measurement is used at most once](HM_pair_02_Screen_Pairs_dup.m) ([Chan and Huybers., 2019](https://journals.ametsoc.org/doi/pdf/10.1175/JCLI-D-18-0562.1)).  In the main folder, [HM_Step_01_Run_Pairs_dup.m](HM_Step_01_Run_Pairs_dup.m) is the script to run these functions.  In addition, diurnal cycle estimates based on ICOADS3.0 buoy data, [DA_SST_Gridded_BUOY_sum_from_grid.mat]() and [Diurnal_Shape_SST.mat](), should be placed in `$home_LME/Miscellaneous/` to run the pairing.  
+
+  Output files are stored in `$home_LME/Step_01_Raw_Pairs/` and `$home_LME/Step_02_Screen_Pairs/`.  Run [HM_Step_02_SUM_Pairs_dup.m](HM_Step_02_SUM_Pairs_dup.m) to combine screened pairs from individual files into one file, which will be used in following steps.  The combined file, [SUM_HM_SST_Bucket_Screen_Pairs_*.mat](), should be placed in `$home_LME/Step_03_SUM_Pairs/`.
+
+2. __LME__ folder contains scripts that compute offsets among groups of SST measurements using on a linear-mixed-effect model ([Chan and Huybers., 2019](https://journals.ametsoc.org/doi/pdf/10.1175/JCLI-D-18-0562.1)).  In the main folder, [HM_Step_03_LME_cor_err_dup.m](HM_Step_03_LME_cor_err_dup.m) is the script to perform the offset estimation.  Data generated in this step, including group-wise offset estimates - [LME_HM_SST_Bucket_yr_start_1850*.mat](),  will be saved in `$home_LME/Step_04_run/`.
+
+3. __Correct__ folder contains scripts that apply groupwise corrections and generates gridded SST estimates.  Groupwise corrections are applied to each SST measurement by removing offset estimated in step __2__.  In the main folder, [HM_Step_04_Corr_Idv.m](HM_Step_04_Corr_Idv.m) is the script to perform corrections using the maximum likelihood estimates of offsets.  [This script](HM_Step_04_Corr_Idv.m) also generates gridded SST estimates that only correct for one group at a time.
+
+  In the main folder, [HM_Step_05_Corr_Rnd.m](HM_Step_05_Corr_Rnd.m) generates a 1000-member ensemble of gridded SSTs to estimate uncertainties of groupwise corrections.  For each correction member,
+
+  randomized correction correct the random samples drawn based on error estimates of offsets, i.e., 1,000 correction members.
+
+
+  Finally, HM_Step_06_SUM_Corr.m summarizes the statistics of corrections, e.g., trends from 1908-1941, average time series over NP and NA, and PDO indices. All related functions are placed in the Correct folder.
+
+Global: This folder contains scripts that merges global correction to raw ICOADS and ICOADS with only regional bucket corrections. Running GC_Step_01_SST_merge_GC_to_ICOADSb.m generates ICOADSa and ICOADSb. Another script GC_Step_02_add_GC_to_ICOADSa_statistics.m merges key statistics, including those from random ICOADSb members, to generate figures and tables.
+
+Stats: Contains a set of scripts that generate statistics reported in the texts as well as some tables. It is better to run these lines before generating tables and figures.
+
+Figure: Contains scripts to plot figure in the main text. We have placed functions starting with CDC_ or CDF_ in the External folder. They are scripts required to generate figures.
+
+________________________________
+
+Data and metadata
+
+Because pre-processing ICOADS take substantial amount of time to run, and also to guarantee the full reproduction of our results, we provide pre-processed ICOADS 3.0 dataset we used in .mat format (). You can choose to start from here, which is step 2, pairing of SSTs.
+
+However, the whole pairing step is also time consuming, and we provide sum of all pairs with setup used in the main text in the following file, which can be found in the Data folder.
+
 SUM_HM_SST_Bucket_Screen_Pairs_c_once_1850_2014_NpD_1_rmdup_0_rmsml_0_fewer_first_0.mat
-```
 
-We also provide the following data as check point of the whole analysis, which can all be found in the ```Data``` folder.
+We also provide the following data as check point of the whole analysis, which can all be found in the Data folder.
 
-__Binned pairs__:
-```
+Binned pairs:
+
 BINNED_HM_SST_Bucket_yr_start_1850_deck_level_1_cor_err_rmdup_0_rmsml_0_fewer_first_0_correct_kobe_0_connect_kobe_1.mat
-```
-__LME results__:
-```
+
+LME results:
+
 LME_HM_SST_Bucket_yr_start_1850_deck_level_1_cor_err_rmdup_0_rmsml_0_fewer_first_0_correct_kobe_0_connect_kobe_1.mat
-```
-__ICOADSa and ICOADSb__:
-```
+
+ICOADSa and ICOADSb:
+
 ICOADS_a_b.mat
-```
-__Statistics reported__:
-```
+
+Statistics reported:
+
 SUM_corr_idv_HM_SST_Bucket_deck_level_1_GC_do_rmdup_0_correct_kobe_0_connect_kobe_1_yr_start_1850.mat
-```
-__Statistics based on 1,000 correction members__:
-```
+
+Statistics based on 1,000 correction members:
+
 SUM_corr_rnd_HM_SST_Bucket_deck_level_1_GC_do_rmdup_0_correct_kobe_0_connect_kobe_1_yr_start_1850.mat
-```
-__Statistics for bucket records__:
-```
+
+Statistics for bucket records:
+
 Stats_HM_SST_Bucket_deck_level_1.mat
-```
 
 Assess to individual regional correction members are available upon request.
 
-Metadata is required to run the whole analysis.  These files are placed in folder ```Metadata```.  Please make sure to put them in the right directory such that ```HM_OI.m``` and ```ICOADS_OI.m```, two output/input controlling functions, can find these files.
+Metadata is required to run the whole analysis. These files are placed in folder Metadata. Please make sure to put them in the right directory such that HM_OI.m and ICOADS_OI.m, two output/input controlling functions, can find these files.
