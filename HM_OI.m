@@ -25,27 +25,34 @@ function [output,app] = HM_OI(input,env,app,varname,method)
     if isempty(app), app = ''; end
 
     if strcmp(input,'home')
+        
+        % ################################################################
+        % ################################################################
+        % ################################################################
         % home directory of the LME intercomparison analysis
         % we provide options to run this code in different enviromment
         % this is achieved by changing the variable ''env'' in individual
         % scripts
         % env 1 will be the default environment
         if env == 1,
-           output = ['/n/home10/dchan/holy_kuang/Test_Hvd_SST/',app];
+           output = ; % directory of LME related data, environment 1 
         elseif env == 2,
-           output = ['/Users/zen/Desktop/Hvd_SST/',app];
+           output = ; % directory of LME related data, environment 2 
         else
-           output = ['/Volumes/My Passport Pro/SST/Test_Hvd_SST/',app];
+           output = ; % directory of LME related data, environment 3 
         end
         
     elseif strcmp(input,'read_raw')
         % directory to read raw SST dataset
         if env == 1,
-            output = '/n/home10/dchan/holy_kuang/ICOADS3/';
+            output = ; % directory of ICOADS3.0 data, environment 1 
         else
-            % output = '/Volumes/My Passport Pro/SST/Test_pre_process_ICOADS/';
-            output = '/Volumes/My Passport Pro/ICOADS3/';
+            output = ; % directory of ICOADS3.0 data, environment 2 
         end
+
+        % ################################################################
+        % ################################################################
+        % ################################################################
 
     elseif strcmp(input,'SST_raw')
          % Folder of raw SST dataset
