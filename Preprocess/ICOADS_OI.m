@@ -5,8 +5,15 @@
 function output = ICOADS_OI(input)
 
     if strcmp(input,'home')
+        % ################################################################
+        % ################################################################
+        % ################################################################
         % Set the home directory, should be where the data are saved
-        output = ['/Volumes/My Passport Pro/SST/Test_pre_process_ICOADS/'];
+        output = ; % TODO  directory of ICOADS3.0 data, environment 1
+                   % Make sure this is consistent with line 40 in HM_OI.m
+        % ################################################################
+        % ################################################################
+        % ################################################################
 
     elseif  strcmp(input,'raw_data')
         output = [ICOADS_OI('home'),'ICOADS_00_raw/'];

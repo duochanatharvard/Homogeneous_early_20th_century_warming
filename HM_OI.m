@@ -1,8 +1,8 @@
-% some examples:
-% dir_load = [HM_OI('read_raw',env),HM_OI('NMAT_raw')];
-% dir_load = [HM_OI('home',env),HM_OI('NMAT_raw')];
-% dir_save = [dir_home,app];
 % !!! Make sure to set this up before running any script !!!
+% You only need to change dirctories of ICOADS3.0 and LME-related datasets
+% (in lines 33 and 40)
+% In case you these analyses in different machines, please also change lines
+% 35 and 42 for environment 2.
 
 function [output,app] = HM_OI(input,env,app,varname,method)
 
@@ -13,7 +13,7 @@ function [output,app] = HM_OI(input,env,app,varname,method)
     if isempty(env), env = 1; end
 
     if ~exist('app','var')
-        app = '';    
+        app = '';
     end
 
     if exist('varname','var'),
@@ -25,29 +25,21 @@ function [output,app] = HM_OI(input,env,app,varname,method)
     if isempty(app), app = ''; end
 
     if strcmp(input,'home')
-        
+
         % ################################################################
         % ################################################################
         % ################################################################
-        % home directory of the LME intercomparison analysis
-        % we provide options to run this code in different enviromment
-        % this is achieved by changing the variable ''env'' in individual
-        % scripts
-        % env 1 will be the default environment
         if env == 1,
-           output = ; % directory of LME related data, environment 1 
-        elseif env == 2,
-           output = ; % directory of LME related data, environment 2 
-        else
-           output = ; % directory of LME related data, environment 3 
+           output = ; % TODO  directory of LME-related data, environment 1
+        else,
+           output = ; % directory of LME-related data, environment 2
         end
-        
+
     elseif strcmp(input,'read_raw')
-        % directory to read raw SST dataset
         if env == 1,
-            output = ; % directory of ICOADS3.0 data, environment 1 
-        else
-            output = ; % directory of ICOADS3.0 data, environment 2 
+            output = ; % TODO  directory of ICOADS3.0 data, environment 1
+        else,
+            output = ; % directory of ICOADS3.0 data, environment 2
         end
 
         % ################################################################
@@ -85,17 +77,10 @@ function [output,app] = HM_OI(input,env,app,varname,method)
         % directory for random corrections
         output = [app,'Step_06_corr_rnd/'];
 
-    elseif strcmp(input,'diurnal')
+    elseif strcmp(input,'diurnal') || strcmp(input,'mis'),
         % directory for files of buoy based diurnal cycles
         output = ['Miscellaneous/'];
 
-    elseif strcmp(input,'mis')
-        output = ['Miscellaneous/'];
-
-    elseif strcmp(input,'save_figure_science');
-        % directory for output figures
-        output = ['/Users/zen/Dropbox/Research/Figures/'];
-                                          
     elseif strcmp(input,'Mis')
         output = [HM_OI('home',env),'Miscellaneous/'];
 
@@ -110,7 +95,5 @@ function [output,app] = HM_OI(input,env,app,varname,method)
     elseif strcmp(input,'Global_correction');
         % directory of global bucket corrections
         output = [HM_OI('home',env),'Miscellaneous/'];
-
     end
-
 end
