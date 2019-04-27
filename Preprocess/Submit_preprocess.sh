@@ -23,8 +23,8 @@ export JOB_ascii2mat=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
 #SBATCH -n 1
 #SBATCH -t 1500
 #SBATCH --mem-per-cpu=20000
-#SBATCH -e logs/err_step_01_ascii2mat.%j
-#SBATCH -o logs/log_step_01_ascii2mat.%j
+#SBATCH -e logs/err_step_01_ascii2mat.%A.%a
+#SBATCH -o logs/log_step_01_ascii2mat.%A.%a
 matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; num=\$SLURM_ARRAY_TASK_ID; ICOADS_Step_01_ascii2mat_sub; quit;"
 EOF
 )
@@ -45,8 +45,8 @@ export JOB_assign_missing=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
 #SBATCH -n 1
 #SBATCH -t 500
 #SBATCH --mem-per-cpu=10000
-#SBATCH -e logs/err_step_02_preQC.%j
-#SBATCH -o logs/log_step_02_preQC.%j
+#SBATCH -e logs/err_step_02_preQC.%A.%a
+#SBATCH -o logs/log_step_02_preQC.%A.%a
 #SBATCH --dependency=afterok:${JOB_ascii2mat}
 matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; num=\$SLURM_ARRAY_TASK_ID; ICOADS_Step_02_pre_QC_sub; quit;"
 EOF
@@ -67,8 +67,8 @@ export JOB_winsorize=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
 #SBATCH -n 1
 #SBATCH -t 500
 #SBATCH --mem-per-cpu=5000
-#SBATCH -e logs/err_step_03_winsorize.%j
-#SBATCH -o logs/log_step_03_winsorize.%j
+#SBATCH -e logs/err_step_03_winsorize.%A.%a
+#SBATCH -o logs/log_step_03_winsorize.%A.%a
 #SBATCH --dependency=afterok:${JOB_assign_missing}
 matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; num=\$SLURM_ARRAY_TASK_ID; ICOADS_Step_03_WM_sub; quit;"
 EOF
@@ -89,8 +89,8 @@ export JOB_neighbor_sigma=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
 #SBATCH -n 1
 #SBATCH -t 500
 #SBATCH --mem-per-cpu=10000
-#SBATCH -e logs/err_step_04_neighbor_sigma.%j
-#SBATCH -o logs/log_step_04_neighbor_sigma.%j
+#SBATCH -e logs/err_step_04_neighbor_sigma.%A.%a
+#SBATCH -o logs/log_step_04_neighbor_sigma.%A.%a
 #SBATCH --dependency=afterok:${JOB_winsorize}
 matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; ICOADS_Step_04_Neighbor_std_sub; quit;"
 EOF
@@ -111,8 +111,8 @@ export JOB_buddy=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
 #SBATCH -n 1
 #SBATCH -t 500
 #SBATCH --mem-per-cpu=5000
-#SBATCH -e logs/err_step_05_buddy.%j
-#SBATCH -o logs/log_step_05_buddy.%j
+#SBATCH -e logs/err_step_05_buddy.%A.%a
+#SBATCH -o logs/log_step_05_buddy.%A.%a
 #SBATCH --dependency=afterok:${JOB_assign_missing}
 matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; num=\$SLURM_ARRAY_TASK_ID; ICOADS_Step_05_Buddy_check_sub; quit;"
 EOF

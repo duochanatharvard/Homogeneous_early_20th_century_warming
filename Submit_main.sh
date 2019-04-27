@@ -17,8 +17,8 @@ export JOB_pairing=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
 #SBATCH -n 1
 #SBATCH -t 1500
 #SBATCH --mem-per-cpu=30000
-#SBATCH -e logs/err_step_01_pairing.%j
-#SBATCH -o logs/log_step_01_pairing.%j
+#SBATCH -e logs/err_step_01_pairing.%A.%a
+#SBATCH -o logs/log_step_01_pairing.%A.%a
 matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; num=\$SLURM_ARRAY_TASK_ID; HM_Step_01_Run_Pairs_dup; quit;"
 EOF
 )
@@ -86,8 +86,8 @@ export JOB_cor_idv=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
 #SBATCH -n 1
 #SBATCH -t 1500
 #SBATCH --mem-per-cpu=20000
-#SBATCH -e logs/err_step_04_cor_idv.%j
-#SBATCH -o logs/log_step_04_cor_idv.%j
+#SBATCH -e logs/err_step_04_cor_idv.%A.%a
+#SBATCH -o logs/log_step_04_cor_idv.%A.%a
 #SBATCH --dependency=afterok:${JOB_LME}
 matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; num=\$SLURM_ARRAY_TASK_ID; HM_Step_04_Corr_Idv; quit;"
 EOF
@@ -109,8 +109,8 @@ export JOB_cor_rnd=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
 #SBATCH -n 1
 #SBATCH -t 1500
 #SBATCH --mem-per-cpu=20000
-#SBATCH -e logs/err_step_05_cor_rnd.%j
-#SBATCH -o logs/log_step_05_cor_rnd.%j
+#SBATCH -e logs/err_step_05_cor_rnd.%A.%a
+#SBATCH -o logs/log_step_05_cor_rnd.%A.%a
 #SBATCH --dependency=afterok:${JOB_LME}
 matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; num=\$SLURM_ARRAY_TASK_ID; HM_Step_05_Corr_Rnd; quit;"
 EOF
@@ -132,8 +132,8 @@ export JOB_cor_stats=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
 #SBATCH -n 1
 #SBATCH -t 1500
 #SBATCH --mem-per-cpu=30000
-#SBATCH -e logs/err_step_06_cor_stats.%j
-#SBATCH -o logs/log_step_06_cor_stats.%j
+#SBATCH -e logs/err_step_06_cor_stats.%A.%a
+#SBATCH -o logs/log_step_06_cor_stats.%A.%a
 #SBATCH --dependency=afterok:${JOB_cor_idv}:${JOB_cor_rnd}
 matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; num=\$SLURM_ARRAY_TASK_ID; HM_Step_06_SUM_Corr; quit;"
 EOF
@@ -156,8 +156,8 @@ export JOB_cor_glb=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
 #SBATCH -n 1
 #SBATCH -t 1500
 #SBATCH --mem-per-cpu=30000
-#SBATCH -e logs/err_step_07_cor_glb.%j
-#SBATCH -o logs/log_step_07_cor_glb.%j
+#SBATCH -e logs/err_step_07_cor_glb.%A.%a
+#SBATCH -o logs/log_step_07_cor_glb.%A.%a
 #SBATCH --dependency=afterok:${JOB_cor_stats}
 matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; num=\$SLURM_ARRAY_TASK_ID; HM_Step_07_Merge_GC; quit;"
 EOF
