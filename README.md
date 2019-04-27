@@ -1,15 +1,14 @@
-# Matlab scripts for groupwise bucket corrections in Chan et. al. 2019
+# Matlab scripts for groupwise bucket corrections in [Chan et. al. 2019]()
 
-________________________________
-
+<br>
 ## Get started:
 Run [Chan_et_al_init.m](Chan_et_al_init.m) to initialize the analysis.  This script will add all codes in this package to Matlab path and set up directories structured following the below figure.  The default path will be the directory of this package; so make sure that enough disk space is available (~XG for simply reproducing figures and tables and ~70G for full reproduction), otherwise, specify another directory to store the data:
 
 `Chan_et_al_init($home_data)`
 
 ![image](Directories_2.png)
-________________________________
 
+<br>
 ## Quick start
 
 After initialization, simply run [Quick_start.m](Quick_start.m) to generate Fig. 1-4 and Table 1, as well as numbers reported in the main text.
@@ -30,12 +29,13 @@ __[Prerequisite]__ Please make sure that you have the following files downloaded
 
 * __Matlab [m_map](https://www.eoas.ubc.ca/~rich/map.html) toolbox__ is used to plot maps, and its path should be specified in [HM_load_package.m](HM_load_package.m).
 
+<br>
+<br>
 ________________________________
 
 ### For readers interested in fully reproducing our analysis, we provide the following guidance to run our codes.
 
-________________________________
-
+<br>
 ## Overview and system requirements:
 
 Below is the flow chart of the full analysis.
@@ -46,8 +46,7 @@ Several steps in processing are memory and computationally intensive.  Our analy
 
 For purposes of facilitating reproduction we have also provided files resulting from our computation at various stages of the analysis (indicated by red arrows).
 
-________________________________
-
+<br>
 ## A. Preprocess:
 This folder contains scripts for downloading and preprocessing the ICOADS3.0 data. ICOADS3.0 is 28GB and can be downloaded from [RDA dataset 548.0](https://rda.ucar.edu/datasets/ds548.0/#!description).  We have also archived a version [here]().  
 
@@ -80,8 +79,7 @@ __A.5.__ [ICOADS_Step_05_Buddy_check.m](Preprocess/ICOADS_Step_05_Buddy_check.m)
 
 Step 2 follows [Chan et al., submitted]() for SST and [Kent et al. (2013)](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/jgrd.50152) for nighttime marine air temperature, and steps 3-5 follow [Rayner et al. (2006)](https://journals.ametsoc.org/doi/full/10.1175/JCLI3637.1) in performing buddy check.
 
-________________________________
-
+<br>
 ## B. Main Code:
 
 This step can be accessed directly without performing preprocessing by downloading the [preprocessed .mat files]() and place them in `$home_ICOADS3/ICOADS_QCed/`.   
@@ -150,10 +148,11 @@ This step will generate the following files in `$home_ICOADSb/HM_SST_Bucket/`, w
 
 ---
 
-__B.5.__ This will be the same as the quick start that generates Fig. 1-4 and Table 1, as well as numbers reported in the main text.
+__B.5.__ This step will be the same as the quick start that generates Fig. 1-4 and Table 1, as well as numbers reported in the main text.
 
 
--------
+<br>
+<br>
 Maintained by __Duo Chan__ (duochan@g.harvard.edu)
 
 Last Update: April 30, 2019
