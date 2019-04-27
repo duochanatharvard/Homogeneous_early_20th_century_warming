@@ -9,9 +9,8 @@ pick_limit = 1850;
 % *************************************************
 % This is the setup for results in the main text
 % Sensitivity tests can be performed by tuning these Parameters
-% But please do go through the whole set of code
-% before making any changes !!!
 % *************************************************
+
 do_NpD       = 1;                   % Use nation and deck to group measurements
 EP.do_rmdup  = 0;                   % Do not remove measurements whose DUPS!=0
 EP.do_rmsml  = 0;                   % Use all groups contributing to more than 5000 pairs

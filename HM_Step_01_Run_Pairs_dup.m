@@ -11,11 +11,14 @@ pick_limit = 1850;
 
 env  = 1;
 
-for yr = 2014:-1:pick_limit
-    for mon = 1:12
+
+[y_st,m_st] = ind2sub([50,12],num);
+for yr = (1850+y_st):50:2014
+    for mon = m_st
 
         % ######################################################################
-        % The following parameters should be fixed
+        % The following parameters are for results shown in Chan et al., 2019
+        % They can be updated in various ways to perform sensitivity tests
         % ######################################################################
         if 1,                                      % Pick out all possible pairs
             do_NpD   = 1;                          % Group by nation and deck
@@ -30,8 +33,7 @@ for yr = 2014:-1:pick_limit
         end
 
         % ######################################################################
-        % Note that parameters listed here are to
-        % reproduce results in the main texts
+        % The following parameters are for results shown in Chan et al., 2019
         % They can be updated in various ways to perform sensitivity tests
         % ######################################################################
         if 1,

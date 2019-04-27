@@ -1,0 +1,74 @@
+#!/bin/sh
+
+export partition_main="huce_intel"                # TODO
+export group_account="kuang_lab"                  # TODO
+
+mkdir logs
+
+# ############################################################
+# Pairing SSTs and screening pairs such that each measurement is only used once
+# ############################################################
+export JOB_pairing=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
+#!/bin/sh
+#SBATCH --account=${group_account}
+#SBATCH -p ${partition_main}
+#SBATCH -J Pairing
+#SBATCH --array=1-600
+#SBATCH -n 1
+#SBATCH -t 1500
+#SBATCH --mem-per-cpu=30000
+#SBATCH -e logs/err_step_01_pairing.%j
+#SBATCH -o logs/log_step_01_pairing.%j
+matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; num=\$SLURM_ARRAY_TASK_ID; HM_Step_01_Run_Pairs_dup; quit;"
+EOF
+)
+echo submitted job ${JOB_pairing} for pairing SSTs
+
+# This step outputs 1,935 'IMMA1_R3.0.0_YYYY-MM_Bucket_Pairs_c_all_pairs.mat' files
+# to $home_ICOADSb/HM_SST_Bucket/Step_01_Raw_Pairs/
+# and outputs 1,935 'IMMA1_R3.0.0_YYYY-MM_Bucket_Screen_Pairs_c_*.mat' files
+# to $home_ICOADSb/HM_SST_Bucket/Step_02_Screen_Pairs/
+
+
+# ############################################################
+# Combining pairs
+# ############################################################
+export JOB_combine_pairs=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
+#!/bin/sh
+#SBATCH --account=${group_account}
+#SBATCH -p ${partition_main}
+#SBATCH -J Combine_pairs
+#SBATCH -n 1
+#SBATCH -t 1500
+#SBATCH --mem-per-cpu=100000
+#SBATCH -e logs/err_step_02_combine_pairs
+#SBATCH -o logs/log_step_02_combine_pairs
+#SBATCH --dependency=afterok:${JOB_pairing}
+matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; HM_Step_02_SUM_Pairs_dup; quit;"
+EOF
+)
+echo submitted job ${JOB_combine_pairs} for combining pairs
+
+# This step outputs 'SUM_HM_SST_Bucket_Screen_Pairs_c_once_*.mat' to $home_ICOADSb/HM_SST_Bucket/Step_03_SUM_Pairs/
+
+# ############################################################
+# LME analysis
+# ############################################################
+export JOB_LME=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
+#!/bin/sh
+#SBATCH --account=${group_account}
+#SBATCH -p ${partition_main}
+#SBATCH -J LME
+#SBATCH -n 1
+#SBATCH -t 3000
+#SBATCH --mem-per-cpu=200000
+#SBATCH -e logs/err_step_03_LME
+#SBATCH -o logs/log_step_03_LME
+#SBATCH --dependency=afterok:${JOB_combine_pairs}
+matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; HM_Step_03_LME_cor_err_dup; quit;"
+EOF
+)
+echo submitted job ${JOB_LME} for estimating groupwise offsets using LME
+
+# This step outputs 'BINNED_HM_SST_Bucket_*.mat' and 'LME_HM_SST_Bucket_yr_*.mat'
+# to $home_ICOADSb/HM_SST_Bucket/Step_04_run/
