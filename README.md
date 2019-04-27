@@ -4,14 +4,14 @@
 
 Matlab and shell scripts associated with the paper "Correcting datasets leads to more homogeneous early 20th century sea surface warming " by Duo Chan, Elizabeth C. Kent, David I. Berry, and Peter Huybers.
 
-Most of these codes are .m files and should be run in [Matlab](https://www.mathworks.com/products/matlab.html).  We provide a [quick start function](Quick_start.m) for fast reproduction of Figures and Table in the main text.  If you are reproducing the [full analysis](), which takes more computational resources and time to run, we provide two Shell template scripts that runs these Matlab codes on clusters.  The provided Shell template is for submitting jobs on the Harvard [Odyssey Cluster](https://www.rc.fas.harvard.edu/odyssey/) that uses a [SLURM workload manager](https://slurm.schedmd.com/documentation.html).    
+Most of these codes are [Matlab](https://www.mathworks.com/products/matlab.html) .m files .  We provide a [quick start function](Quick_start.m) for fast reproduction of Figures and Table in the main text.  If you are reproducing the [full analysis](), which takes more computational resources and time to run, we provide two Shell template scripts that runs these Matlab codes on clusters.  The provided Shell template is for submitting jobs on the Harvard [Odyssey Cluster](https://www.rc.fas.harvard.edu/odyssey/) that uses a [SLURM workload manager](https://slurm.schedmd.com/documentation.html).    
 
 Though we have made our best to comment codes and provide all dependencies, and tested these codes on a clean computer, we are unlikely to be 100% successful.  If you are trying to use these codes to reproduce our results and have identified missing files or dependencies, please contact [Duo Chan](duochan@g.harvard.edu).
 
 <br>
 
 ## Get started:
-Run [Chan_et_al_init.m](Chan_et_al_init.m) to initialize the analysis.  This script will add all codes in this package to Matlab path and set up directories structured following the below figure.  The default path will be the directory of this package; so make sure that enough disk space is available (~XGB for simply reproducing figures and tables and ~70GB for full reproduction), otherwise, specify another directory to store the data:
+Run [Chan_et_al_2019_init.m](Chan_et_al_2019_init.m) to initialize the analysis.  This script will add all codes in this package to Matlab path and set up directories structured following the below figure.  The default path will be the directory of this package; so make sure that enough disk space is available (~XGB for simply reproducing figures and tables and ~70GB for full reproduction), otherwise, specify another directory to store the data:
 
 `Chan_et_al_init($home_data)`
 
@@ -61,7 +61,11 @@ For purposes of facilitating reproduction we have also provided files resulting 
 <br>
 
 ## A. Preprocess:
-This folder contains scripts for downloading and preprocessing the ICOADS3.0 data. ICOADS3.0 is 28GB and can be downloaded from [RDA dataset 548.0](https://rda.ucar.edu/datasets/ds548.0/#!description).  We have also archived a version [here]().  Because the whole preprocessing takes more than a month to finish on a Macbook pro with a 3.1Ghz Intel Core i7 Processor,  this step can be skipped by downloading the [preprocessed .mat files]() and place them in `$home_ICOADS3/ICOADS_QCed/`.   If you would like to reproduce these steps,  we provide [Submit_preprocess.sh](Preprocess/Submit_preprocess.sh) that wraps these steps and runs scripts on the Harvard [Odyssey Cluster](https://www.rc.fas.harvard.edu/odyssey/) that uses a [SLURM workload manager](https://slurm.schedmd.com/documentation.html).   If you are using a different machinery, please make necessary changes.
+This folder contains scripts for downloading and preprocessing the ICOADS3.0 data.
+
+ICOADS3.0 is 28GB.  [ICOADS_Step_00_download.csh](Preprocess/ICOADS_Step_00_download.csh) is the script we use to download from [RDA dataset 548.0](https://rda.ucar.edu/datasets/ds548.0/#!description).  Please download files to `$home_ICOADS3/ICOADS_00_raw_zip/`. After downloading, run [ICOADS_Step_00_unzip.sh](Preprocess/ICOADS_Step_00_unzip.sh) to unzip files, which are placed in `$home_ICOADS3/ICOADS_00_raw/`.  We have also archived an unzipped version [here]().  
+
+Because the whole preprocessing takes more than a month to finish on a Macbook pro with a 3.1Ghz Intel Core i7 Processor,  this step can be skipped by downloading the [preprocessed .mat files]() and place them in `$home_ICOADS3/ICOADS_QCed/`.   If you would like to reproduce these steps,  we provide [Submit_preprocess.sh](Preprocess/Submit_preprocess.sh) that wraps these steps and runs scripts on the Harvard [Odyssey Cluster](https://www.rc.fas.harvard.edu/odyssey/) that uses a [SLURM workload manager](https://slurm.schedmd.com/documentation.html).   If you are using a different machinery, please make necessary changes.
 
 __[Prerequisite]__ please make sure the following metadata are downloaded from [here]() and placed in `$home_ICOADS3/ICOADS_Mis/`:
 
@@ -88,14 +92,12 @@ sbatch Preprocess/Submit_preprocess.sh
 
 The preprocessing contains a downloading step and five processing steps (see below).  Among which, step __A.2__ follows [Chan et al., submitted]() for SST and [Kent et al. (2013)](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/jgrd.50152) for nighttime marine air temperature, and steps __A.3-A.5__ follow [Rayner et al. (2006)](https://journals.ametsoc.org/doi/full/10.1175/JCLI3637.1) in performing buddy check.
 
-__A.0.__ [ICOADS_Step_00_download.csh](Preprocess/ICOADS_Step_00_download.csh) downloads raw ICOADS3.0 data to folder `$home_ICOADS3/ICOADS_00_raw_zip/` and [ICOADS_Step_00_unzip.sh](Preprocess/ICOADS_Step_00_unzip.sh) unzips the data files.  Unzipped files are stored in `$home_ICOADS3/ICOADS_00_raw/`.
-
-__A.1.__ [ICOADS_Step_01_ascii2mat.m](Preprocess/ICOADS_Step_01_ascii2mat.m)  converts ICOADS data from ASCII file to .mat files and stores them in `$home_ICOADS3/ICOADS_01_mat_files/`.
+__A.1.__ [ICOADS_Step_01_ascii2mat.m](Preprocess/ICOADS_Step_01_ascii2mat.m)  converts ICOADS3.0 data from ASCII format to .mat files and stores them in `$home_ICOADS3/ICOADS_01_mat_files/`.
 
 __A.2.__ [ICOADS_Step_02_pre_QC.m](Preprocess/ICOADS_Step_02_pre_QC.m) assigns missing country information and measurement method and outputs files to
 `$Home_ICOADS3.O/ICOADS_02_pre_QC/`.
 
-__A.3.__ [ICOADS_Step_03_WM.m](Preprocess/ICOADS_Step_03_WM.m) generates winsorized mean of 5-day SST at 1 degree resolution.  These gridded data are stored in `$home_ICOADS3/ICOADS_03_WM/`.
+__A.3.__ [ICOADS_Step_03_WM.m](Preprocess/ICOADS_Step_03_WM.m) computes winsorized mean of 5-day SST at 1 degree resolution.  These gridded data are stored in `$home_ICOADS3/ICOADS_03_WM/`.
 
 __A.4.__ [ICOADS_Step_04_Neighbor_std.m](Preprocess/ICOADS_Step_04_Neighbor_std.m) computes between neighbor standard deviation of SST for each month.
 
