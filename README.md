@@ -108,7 +108,7 @@ __A.5.__ [ICOADS_Step_05_Buddy_check.m](Preprocess/ICOADS_Step_05_Buddy_check.m)
 
 As shown in the [flow chart](), this step contains [pairing SST measurements](), [estimating offsets using LME](), [correcting groupwise offsets and gridding](), and [merging with common bucket corrections]().  These main steps can be accessed without preprocessing ICOADS3.0 by downloading the [preprocessed .mat files]() and place them in `$home_ICOADS3/ICOADS_QCed/`.   
 
-Again, the whole analysis takes substantial amount of computational resources to run, including several steps that process more than 2,000 files and one step that takes 150GB memory.  We recommend you to reproduce these steps on clusters and provide [Submit_main.sh](Submit_main.sh) that wraps these steps and runs scripts on the Harvard [Odyssey Cluster](https://www.rc.fas.harvard.edu/odyssey/) that uses a [SLURM workload manager](https://slurm.schedmd.com/documentation.html).   Again, if you are using a different machinery, please make necessary changes.
+Again, the whole analysis takes substantial amount of computational resources to run, including several steps that process more than 2,000 files and one step that takes 150GB memory.  We recommend you to reproduce these steps on clusters and provide [Submit_main.sh](Submit_main.sh) that wraps these steps and runs scripts on the Harvard [Odyssey Cluster](https://www.rc.fas.harvard.edu/odyssey/) that uses a [SLURM workload manager](https://slurm.schedmd.com/documentation.html).   If you are using a different machinery, please make necessary changes.
 
  To run the main analysis using the shell script, simply run (the command may vary on different machineries):
 
@@ -190,6 +190,7 @@ __B.5.__ This step will be the same as the quick start that generates Fig. 1-4 a
 <br>
 <br>
 
+Acknowledgement:  We thank [Parkard Chan](https://github.com/PackardChan) for his helps on developing this page and checking scripts using his machinery.
 
 Maintained by __Duo Chan__ (duochan@g.harvard.edu)
 
