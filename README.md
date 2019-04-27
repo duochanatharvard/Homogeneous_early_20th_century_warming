@@ -1,21 +1,9 @@
 # Matlab scripts for groupwise bucket corrections in Chan et. al. 2019
 
-## Overview and system requirements:
-
-Below is the flow chart of our analysis.
-
-![image](Flow_chart.png)
-
-Several steps in processing are memory and computationally intensive.  Our analysis was run on Harvard Research Computing clusters and uses 200 cpus and 150GB memory per cpu, and requires 5,000 core-hours of computation and 70GB of disk space.  
-
-For purposes of facilitating reproduction we have also provided files resulting from our computation at various stages of the analysis (indicated by red arrows).
-
-Matlab [m_map](https://www.eoas.ubc.ca/~rich/map.html) toolbox is required, and its path should be specified in [HM_load_package.m](HM_load_package.m).
-
 ________________________________
 
 ## Get started:
-Run [Chan_et_al_init.m](Chan_et_al_init.m) to initialize the analysis.  This script will add all scripts in this package to Matlab path and set up directories structured following the below figure.  The default path will be the directory of this package; so make sure that enough disk space is available (~70G), otherwise, specify another directory to store the data:
+Run [Chan_et_al_init.m](Chan_et_al_init.m) to initialize the analysis.  This script will add all codes in this package to Matlab path and set up directories structured following the below figure.  The default path will be the directory of this package; so make sure that enough disk space is available (~XG for simply reproducing figures and tables and ~70G for full reproduction), otherwise, specify another directory to store the data:
 
 `Chan_et_al_init($home_data)`
 
@@ -26,7 +14,7 @@ ________________________________
 
 After initialization, simply run [Quick_start.m](Quick_start.m) to generate Fig. 1-4 and Table 1, as well as numbers reported in the main text.
 
-__[Prerequisite]__ Please make sure that you have the following files downloaded and placed in corresponding files.
+__[Prerequisite]__ Please make sure that you have the following files downloaded and placed in corresponding directories.
 
 * __SUM_corr_idv_HM_SST_Bucket_GC_*.mat__: key statistics for ICOADSa and ICOADSb, which can be downloaded from [here]() and should be placed in `$home_ICOADSb/HM_SST_Bucket/`.  Key statistics include the spatial pattern of 1908-1941 trends, monthly SSTs over the North Pacific and North Atlantic, monthly SSTs near East Asia and the Eastern U.S., and PDO indices.
 
@@ -40,7 +28,23 @@ __[Prerequisite]__ Please make sure that you have the following files downloaded
 
 * __CRUTEM.4.6.0.0.anomalies.nc__: CRUTEM4 dataset. We have a copy [here]() and one should place it in `$home_ICOADSb/Miscellaneous/`.
 
+* __Matlab [m_map](https://www.eoas.ubc.ca/~rich/map.html) toolbox__ is used to plot maps, and its path should be specified in [HM_load_package.m](HM_load_package.m).
 
+________________________________
+
+### For readers interested in fully reproducing our analysis, we provide the following guidance to run our codes.
+
+________________________________
+
+## Overview and system requirements:
+
+Below is the flow chart of the full analysis.
+
+![image](Flow_chart.png)
+
+Several steps in processing are memory and computationally intensive.  Our analysis was run on Harvard Research Computing clusters and uses 200 cpus and 150GB memory per cpu, and requires 5,000 core-hours of computation and 70GB of disk space.  
+
+For purposes of facilitating reproduction we have also provided files resulting from our computation at various stages of the analysis (indicated by red arrows).
 
 ________________________________
 
