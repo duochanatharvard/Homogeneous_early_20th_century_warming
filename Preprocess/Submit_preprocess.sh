@@ -6,8 +6,8 @@
 # run ICOADS_Step_00_unzip.sh to unzip files,
 # which are placed in $home_ICOADS3/ICOADS_00_raw/.
 
-export partition_preprocess="huce_intel"
-export group_account="kuang_lab"
+export partition_preprocess="huce_intel"          # TODO
+export group_account="kuang_lab"                  # TODO
 
 mkdir logs
 

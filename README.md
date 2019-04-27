@@ -54,7 +54,7 @@ Below is the flow chart of the full analysis.
 
 ![image](Flow_chart.png)
 
-Several steps in processing are memory and computationally intensive.  Our analysis was run on Harvard Research Computing clusters and uses 200 cpus and 150GB memory per cpu, and requires 5,000 core-hours of computation and 70GB of disk space.  
+Several steps in processing are memory and computationally intensive.  Our analysis was run on Harvard Research Computing clusters and uses 200 cpus and 150GB memory per cpu, and requires 5,000 core-hours of computation and 300GB of disk space.  
 
 For purposes of facilitating reproduction we have also provided files resulting from our computation at various stages of the analysis (indicated by red arrows).
 
@@ -63,11 +63,15 @@ For purposes of facilitating reproduction we have also provided files resulting 
 ## A. Preprocess:
 This folder contains scripts for downloading and preprocessing the ICOADS3.0 data.
 
-ICOADS3.0 is 28GB.  [ICOADS_Step_00_download.csh](Preprocess/ICOADS_Step_00_download.csh) is the script we use to download from [RDA dataset 548.0](https://rda.ucar.edu/datasets/ds548.0/#!description).  Please download files to `$home_ICOADS3/ICOADS_00_raw_zip/`. After downloading, run [ICOADS_Step_00_unzip.sh](Preprocess/ICOADS_Step_00_unzip.sh) to unzip files, which are placed in `$home_ICOADS3/ICOADS_00_raw/`.  We have also archived an unzipped version [here]().  
+Please make sure that 270GB of disk space is available for raw ICOADS3.0 and outputs during preprocessing steps, and we recommend to use a cluster.  Or you can skip preprocessing by downloading the [preprocessed .mat files]() (35GB) and place them in `$home_ICOADS3/ICOADS_QCed/`.   
 
-Because the whole preprocessing takes more than a month to finish on a Macbook pro with a 3.1Ghz Intel Core i7 Processor,  this step can be skipped by downloading the [preprocessed .mat files]() and place them in `$home_ICOADS3/ICOADS_QCed/`.   If you would like to reproduce these steps,  we provide [Submit_preprocess.sh](Preprocess/Submit_preprocess.sh) that wraps these steps and runs scripts on the Harvard [Odyssey Cluster](https://www.rc.fas.harvard.edu/odyssey/) that uses a [SLURM workload manager](https://slurm.schedmd.com/documentation.html).   If you are using a different machinery, please make necessary changes.
+__[Prerequisite]__ please make sure the following data and metadata are downloaded:
 
-__[Prerequisite]__ please make sure the following metadata are downloaded from [here]() and placed in `$home_ICOADS3/ICOADS_Mis/`:
+ * __ICOADS3.0__ raw data: [ICOADS_Step_00_download.csh](Preprocess/ICOADS_Step_00_download.csh) is the script we use to download zipped ICOADS3.0 (28GB) from [RDA dataset 548.0](https://rda.ucar.edu/datasets/ds548.0/#!description).  Please download files to `$home_ICOADS3/ICOADS_00_raw_zip/`. We have also archived raw data we used [here]().  After downloading, unzip files and place them in `$home_ICOADS3/ICOADS_00_raw/`.  Note that unzipped ICOADS3.0 files are 153GB in total.
+
+ * __Matlab [m_map](https://www.eoas.ubc.ca/~rich/map.html) toolbox__, and its path should be specified in [HM_load_package.m](HM_load_package.m).
+
+The following files can be downloaded from [here]() and should be placed in `$home_ICOADS3/ICOADS_Mis/`
 
  * __OI_clim_1982_2014.mat__: 33-year [OI-SST](https://www.esrl.noaa.gov/psd/data/gridded/data.noaa.oisst.v2.highres.html) daily climatology,
 
@@ -77,20 +81,22 @@ __[Prerequisite]__ please make sure the following metadata are downloaded from [
 
  * __Dif_DMAT_NMAT_1947_1956.mat__: Mean daytime and nighttime marine air temperature difference in 1947-1956,
 
- * __Buddy_std_SST.mat__:  Output from step [A.4],
+ * __Buddy_std_SST.mat__:  Output from step __A.4__,
 
- * __Buddy_std_NMAT.mat__:  Output from step [A.4].
+ * __Buddy_std_NMAT.mat__:  Output from step __A.4__.
 
 <br>
- To run preprocessing using the shell script, simply run (the command may vary on different machineries):
 
+[Submit_preprocess.sh](Preprocess/Submit_preprocess.sh) wraps all preprocessing steps and runs scripts on the Harvard [Odyssey Cluster](https://www.rc.fas.harvard.edu/odyssey/) that uses a [SLURM workload manager](https://slurm.schedmd.com/documentation.html).  If you are using a different machinery, please make necessary changes.
+
+To perform the preprocessing, run
 ```
 ./Preprocess/Submit_preprocess.sh
 ```
 
 ---
 
-The preprocessing contains a downloading step and five processing steps (see below).  Among which, step __A.2__ follows [Chan et al., submitted]() for SST and [Kent et al. (2013)](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/jgrd.50152) for nighttime marine air temperature, and steps __A.3-A.5__ follow [Rayner et al. (2006)](https://journals.ametsoc.org/doi/full/10.1175/JCLI3637.1) in performing buddy check.
+The preprocessing contains five steps (see below).  Among which, step __A.2__ follows [Chan et al., submitted]() for SST and [Kent et al. (2013)](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/jgrd.50152) for nighttime marine air temperature, and steps __A.3-A.5__ follow [Rayner et al. (2006)](https://journals.ametsoc.org/doi/full/10.1175/JCLI3637.1) in performing buddy check.
 
 __A.1.__ [ICOADS_Step_01_ascii2mat.m](Preprocess/ICOADS_Step_01_ascii2mat.m)  converts ICOADS3.0 data from ASCII format to .mat files and stores them in `$home_ICOADS3/ICOADS_01_mat_files/`.
 
