@@ -85,7 +85,7 @@ __[Prerequisite]__ please make sure the following metadata are downloaded from [
  To run preprocessing using the shell script, simply run (the command may vary on different machineries):
 
 ```
-sbatch Preprocess/Submit_preprocess.sh
+./Preprocess/Submit_preprocess.sh
 ```
 
 ---
@@ -115,7 +115,7 @@ Again, the whole analysis takes substantial amount of computational resources to
  To run the main analysis using the shell script, simply run (the command may vary on different machineries):
 
 ```
-sbatch Submit_main.sh
+./Submit_main.sh
 ```
 
 We strongly encourage you to go through the following documentation for prerequisites of individual steps and details of the workflow.
@@ -192,7 +192,7 @@ __B.5.__ This step will be the same as the quick start that generates Fig. 1-4 a
 <br>
 <br>
 
-Acknowledgement:  We thank [Parkard Chan](https://github.com/PackardChan) for his helps on developing this page and checking scripts using his machinery.
+Acknowledgement:  We thank [Packard Chan](https://github.com/PackardChan) for his helps on developing this page and checking scripts using his machinery.
 
 Maintained by __Duo Chan__ (duochan@g.harvard.edu)
 

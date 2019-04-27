@@ -25,7 +25,7 @@ export JOB_ascii2mat=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
 #SBATCH --mem-per-cpu=20000
 #SBATCH -e logs/err_step_01_ascii2mat.%j
 #SBATCH -o logs/log_step_01_ascii2mat.%j
-matlab -nosplash -nodesktop -nojvm -nodisplay -r "num=\$SLURM_ARRAY_TASK_ID; ICOADS_Step_01_ascii2mat_sub; quit;"
+matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; num=\$SLURM_ARRAY_TASK_ID; ICOADS_Step_01_ascii2mat_sub; quit;"
 EOF
 )
 echo submitted job ${JOB_ascii2mat} for converting ICOADS3.0 data from ASCII format to .mat files
@@ -48,7 +48,7 @@ export JOB_assign_missing=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
 #SBATCH -e logs/err_step_02_preQC.%j
 #SBATCH -o logs/log_step_02_preQC.%j
 #SBATCH --dependency=afterok:${JOB_ascii2mat}
-matlab -nosplash -nodesktop -nojvm -nodisplay -r "num=\$SLURM_ARRAY_TASK_ID; ICOADS_Step_02_pre_QC_sub; quit;"
+matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; num=\$SLURM_ARRAY_TASK_ID; ICOADS_Step_02_pre_QC_sub; quit;"
 EOF
 )
 echo submitted job ${JOB_assign_missing} for assigning missing country information and measurement method
@@ -70,7 +70,7 @@ export JOB_winsorize=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
 #SBATCH -e logs/err_step_03_winsorize.%j
 #SBATCH -o logs/log_step_03_winsorize.%j
 #SBATCH --dependency=afterok:${JOB_assign_missing}
-matlab -nosplash -nodesktop -nojvm -nodisplay -r "num=\$SLURM_ARRAY_TASK_ID; ICOADS_Step_03_WM_sub; quit;"
+matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; num=\$SLURM_ARRAY_TASK_ID; ICOADS_Step_03_WM_sub; quit;"
 EOF
 )
 echo submitted job ${JOB_winsorize} for computing winsorized mean of 5-day SST at 1 degree resolution
@@ -92,7 +92,7 @@ export JOB_neighbor_sigma=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
 #SBATCH -e logs/err_step_04_neighbor_sigma.%j
 #SBATCH -o logs/log_step_04_neighbor_sigma.%j
 #SBATCH --dependency=afterok:${JOB_winsorize}
-matlab -nosplash -nodesktop -nojvm -nodisplay -r "ICOADS_Step_04_Neighbor_std_sub; quit;"
+matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; ICOADS_Step_04_Neighbor_std_sub; quit;"
 EOF
 )
 echo submitted job ${JOB_neighbor_sigma} for computing between-neighbor standard deviation
@@ -114,7 +114,7 @@ export JOB_buddy=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
 #SBATCH -e logs/err_step_05_buddy.%j
 #SBATCH -o logs/log_step_05_buddy.%j
 #SBATCH --dependency=afterok:${JOB_assign_missing}
-matlab -nosplash -nodesktop -nojvm -nodisplay -r "num=\$SLURM_ARRAY_TASK_ID; ICOADS_Step_05_Buddy_check_sub; quit;"
+matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; num=\$SLURM_ARRAY_TASK_ID; ICOADS_Step_05_Buddy_check_sub; quit;"
 EOF
 )
 echo submitted job ${JOB_neighbor_sigma} for performing buddy check and other quality controls
