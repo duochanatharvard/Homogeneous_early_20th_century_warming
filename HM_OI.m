@@ -1,13 +1,9 @@
-% !!! Make sure to set this up before running any script !!!
-% You only need to change dirctories of ICOADS3.0 and LME-related datasets
-% (in lines 33 and 40)
-% In case you these analyses in different machines, please also change lines
-% 35 and 42 for environment 2.
+% Output / Input managements
 
 function [output,app] = HM_OI(input,env,app,varname,method)
 
     if ~exist('env','var')
-        env = 1;    % 1 means on odyssey, default, see below
+        env = 1; % enviroment variable is not used
     end
 
     if isempty(env), env = 1; end
@@ -25,26 +21,14 @@ function [output,app] = HM_OI(input,env,app,varname,method)
     if isempty(app), app = ''; end
 
     if strcmp(input,'home')
-
-        % ################################################################
-        % ################################################################
-        % ################################################################
-        if env == 1,
-           output = ; % TODO  directory of LME-related data, environment 1
-        else,
-           output = ; % directory of LME-related data, environment 2
-        end
+        % home directory for ICOADSb
+        load('chan_et_al_2019_directories.mat','dir_home_ICOADSb')
+        output = dir_home_ICOADSb; 
 
     elseif strcmp(input,'read_raw')
-        if env == 1,
-            output = ; % TODO  directory of ICOADS3.0 data, environment 1
-        else,
-            output = ; % directory of ICOADS3.0 data, environment 2
-        end
-
-        % ################################################################
-        % ################################################################
-        % ################################################################
+        % home directory for ICOADS3
+        load('chan_et_al_2019_directories.mat','dir_home_ICOADS3')
+        output = dir_home_ICOADS3;
 
     elseif strcmp(input,'SST_raw')
          % Folder of raw SST dataset
