@@ -1,13 +1,14 @@
-% This code add global correction of statistics to
+% This code adds statisctics of global correction to
 % 1000 members of random regional bucket corrections.
-% Uncertainty of global correction is taken from HadSST3.
+% Uncertainties of common bucket bias corrections are from HadSST3.
 
-clear;
+HM_load_package;
 
 % *****************
 % Set parameters **
 % *****************
-do_idv = 0;              % For mean correction, when equals to zero, random correction
+do_idv = num - 2;              % For mean correction, when equals to zero, random correction
+
 do_NpD = 1;
 EP.do_rmdup = 0;
 EP.do_rmsml = 0;
@@ -64,7 +65,7 @@ dir_mis  = HM_OI('Mis',env);
 file_mis = [dir_mis,'1908_1941_Trd_TS_and_pdo_from_all_existing_datasets_20180914.mat'];
 load(file_mis,'hadsst3','hadsst3_en');
 
-%% ****************************************************************
+% ****************************************************************
 % Merging GC to RC
 % ****************************************************************
 if do_idv == 1,

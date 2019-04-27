@@ -40,23 +40,23 @@ dir_save = [dir_home,HM_OI('corr_idv',env,app)];
 % *******************
 % Start correction **
 % *******************
-for ct = 0:163
+ct = num-1;
 
-    % *************
-    % Correction **
-    % *************
-    en = ct;                  % If not 0, en is the number of group been corrected
-    [WM,ST,NUM] = HM_correct(varname,method,do_NpD,en,do_individual,EP);
+% *************
+% Correction **
+% *************
+en = ct;                  % If not 0, en is the number of group been corrected
+[WM,ST,NUM] = HM_correct(varname,method,do_NpD,en,do_individual,EP);
 
-    % ************
-    % Save Data **
-    % ************
-    disp('Saving Data ...')
-    file_save = [dir_save,'corr_idv_',app(1:end-1),'_deck_level_',...
-              num2str(do_NpD),'_en_',num2str(en),...
-              '_do_rmdup_',num2str(EP.do_rmdup),...
-              '_correct_kobe_',num2str(EP.do_add_JP),...
-              '_connect_kobe_',num2str(EP.connect_kobe),...
-              '_yr_start_',num2str(EP.yr_start),'.mat'];
-    save(file_save,'WM','ST','NUM');
-end
+% ************
+% Save Data **
+% ************
+disp('Saving Data ...')
+file_save = [dir_save,'corr_idv_',app(1:end-1),'_deck_level_',...
+          num2str(do_NpD),'_en_',num2str(en),...
+          '_do_rmdup_',num2str(EP.do_rmdup),...
+          '_correct_kobe_',num2str(EP.do_add_JP),...
+          '_connect_kobe_',num2str(EP.connect_kobe),...
+          '_yr_start_',num2str(EP.yr_start),'.mat'];
+save(file_save,'WM','ST','NUM');
+

@@ -3,7 +3,7 @@
 export partition_main="huce_intel"                # TODO
 export group_account="kuang_lab"                  # TODO
 
-mkdir logs
+mkdir -p logs
 
 # ############################################################
 # Pairing SSTs and screening pairs such that each measurement is only used once
@@ -72,3 +72,100 @@ echo submitted job ${JOB_LME} for estimating groupwise offsets using LME
 
 # This step outputs 'BINNED_HM_SST_Bucket_*.mat' and 'LME_HM_SST_Bucket_yr_*.mat'
 # to $home_ICOADSb/HM_SST_Bucket/Step_04_run/
+
+# ############################################################
+# Correct for maximum likelihood estimates of offsets
+# and offsets of individual groupings
+# ############################################################
+export JOB_cor_idv=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
+#!/bin/sh
+#SBATCH --account=${group_account}
+#SBATCH -p ${partition_main}
+#SBATCH -J cor_idv
+#SBATCH --array=1-163
+#SBATCH -n 1
+#SBATCH -t 1500
+#SBATCH --mem-per-cpu=20000
+#SBATCH -e logs/err_step_04_cor_idv.%j
+#SBATCH -o logs/log_step_04_cor_idv.%j
+#SBATCH --dependency=afterok:${JOB_LME}
+matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; num=\$SLURM_ARRAY_TASK_ID; HM_Step_04_Corr_Idv; quit;"
+EOF
+)
+echo submitted job ${JOB_cor_idv} for correcting for maximum likelihood estimates of offsets
+
+# This step outputs 163 'corr_idv_HM_SST_Bucket_*.mat' files to $home_ICOADSb/HM_SST_Bucket/Step_05_corr_idv/
+
+
+# ############################################################
+# Correct for randomized of offsets
+# ############################################################
+export JOB_cor_rnd=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
+#!/bin/sh
+#SBATCH --account=${group_account}
+#SBATCH -p ${partition_main}
+#SBATCH -J cor_rnd
+#SBATCH --array=1-200
+#SBATCH -n 1
+#SBATCH -t 1500
+#SBATCH --mem-per-cpu=20000
+#SBATCH -e logs/err_step_05_cor_rnd.%j
+#SBATCH -o logs/log_step_05_cor_rnd.%j
+#SBATCH --dependency=afterok:${JOB_LME}
+matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; num=\$SLURM_ARRAY_TASK_ID; HM_Step_05_Corr_Rnd; quit;"
+EOF
+)
+echo submitted job ${JOB_cor_rnd} for correcting for maximum likelihood estimates of offsets
+
+# This step outputs 163 'corr_rnd_HM_SST_Bucket_*.mat' files to $home_ICOADSb/HM_SST_Bucket/Step_06_corr_rnd/
+
+
+# ############################################################
+# Compute statistics of corrections
+# ############################################################
+export JOB_cor_stats=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
+#!/bin/sh
+#SBATCH --account=${group_account}
+#SBATCH -p ${partition_main}
+#SBATCH -J cor_stats
+#SBATCH --array=1-2
+#SBATCH -n 1
+#SBATCH -t 1500
+#SBATCH --mem-per-cpu=30000
+#SBATCH -e logs/err_step_06_cor_stats.%j
+#SBATCH -o logs/log_step_06_cor_stats.%j
+#SBATCH --dependency=afterok:${JOB_cor_idv}:${JOB_cor_rnd}
+matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; num=\$SLURM_ARRAY_TASK_ID; HM_Step_06_SUM_Corr; quit;"
+EOF
+)
+echo submitted job ${JOB_cor_stats} for computing statistics of computations
+
+# This step outputs 'SUM_corr_idv_HM_SST_Bucket_*.mat' and
+# 'SUM_corr_rnd_HM_SST_Bucket_*.mat' to $home_ICOADSb/HM_SST_Bucket/
+
+
+# ############################################################
+# Combine with Global correction
+# ############################################################
+export JOB_cor_glb=$(sbatch << EOF | egrep -o -e "\b[0-9]+$"
+#!/bin/sh
+#SBATCH --account=${group_account}
+#SBATCH -p ${partition_main}
+#SBATCH -J cor_glb
+#SBATCH --array=1-4
+#SBATCH -n 1
+#SBATCH -t 1500
+#SBATCH --mem-per-cpu=30000
+#SBATCH -e logs/err_step_07_cor_glb.%j
+#SBATCH -o logs/log_step_07_cor_glb.%j
+#SBATCH --dependency=afterok:${JOB_cor_stats}
+matlab -nosplash -nodesktop -nojvm -nodisplay -r "HM_load_package; num=\$SLURM_ARRAY_TASK_ID; HM_Step_07_Merge_GC; quit;"
+EOF
+)
+echo submitted job ${JOB_cor_glb} for merging common bucket bias corrections
+
+# This step outputs the following to $home_ICOADSb/HM_SST_Bucket/
+# * 'SUM_corr_idv_HM_SST_Bucket_GC_*.mat'
+# * 'SUM_corr_rnd_HM_SST_Bucket_GC_*.mat'
+# * 'ICOADS_a_b.mat'
+# It also outputs 1000 ICOADSb members 'ICOADSb_ensemble_*.mat' in $ICOADSb/HM_SST_Bucket/ICOADSb_ensemble/

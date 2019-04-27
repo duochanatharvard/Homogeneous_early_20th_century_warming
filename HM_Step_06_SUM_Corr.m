@@ -2,13 +2,20 @@ HM_load_package;
 
 varname = 'SST';
 method  = 'Bucket';
-num_idv = 163;
 env = 0;
 
 % *****************
 % Set parameters **
 % *****************
-do_idv = 1;              % For mean correction, when equals to zero, random correction        
+do_idv = num-1;              % For mean correction, when equals to zero, random correction        
+
+    
+if do_idv == 1,
+    num_idv = 163;
+else
+    num_idv = 1000;
+end
+
 P = HM_correct_para;
 yr_list = P.yr_list;     % Years used to compute trend
 EP.sens_id  = 0;
@@ -132,3 +139,4 @@ else
                  '_yr_start_',num2str(EP.yr_start),'.mat'];
     save(file_save,'Save_trd','Save_TS','Save_pdo','Save_pdo_int','Save_TS_coastal','-v7.3')
 end
+

@@ -27,11 +27,12 @@ function Chan_et_al_2019_init(dir_data)
     mkdir ICOADSb/HM_SST_Bucket/
     mkdir ICOADSb/Miscellaneous/
     mkdir ICOADSb/HM_SST_Bucket/Step_01_Raw_Pairs/
-    mkdir ICOADSb/HM_SST_Bucket/Step_02_Screen_Pairs
-    mkdir ICOADSb/HM_SST_Bucket/Step_03_SUM_Pairs
-    mkdir ICOADSb/HM_SST_Bucket/Step_04_run
-    mkdir ICOADSb/HM_SST_Bucket/Step_05_corr_idv
-    mkdir ICOADSb/HM_SST_Bucket/Step_06_corr_rnd
+    mkdir ICOADSb/HM_SST_Bucket/Step_02_Screen_Pairs/
+    mkdir ICOADSb/HM_SST_Bucket/Step_03_SUM_Pairs/
+    mkdir ICOADSb/HM_SST_Bucket/Step_04_run/
+    mkdir ICOADSb/HM_SST_Bucket/Step_05_corr_idv/
+    mkdir ICOADSb/HM_SST_Bucket/Step_06_corr_rnd/
+    mkdir ICOADSb/HM_SST_Bucket/ICOADSb_ensemble/
     
     cd(dir_code)
     dir_home_ICOADS3 = [dir_data,'ICOADS3/'];

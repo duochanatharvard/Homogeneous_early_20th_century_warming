@@ -38,7 +38,8 @@ dir_save = [dir_home,HM_OI('corr_rnd',env,app)];
 % *******************
 % Start correction **
 % *******************
-for ct = 1:1000
+ct_list = (num*5-4):(num*5);
+for ct = ct_list
 
     % *************
     % Correction **
