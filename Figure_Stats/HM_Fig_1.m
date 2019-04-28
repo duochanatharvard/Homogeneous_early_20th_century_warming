@@ -1,18 +1,21 @@
-clear;
+HM_load_package;
 
 % ********************************************************************
-% Do not change any parameters except ```env```
-% The color scheme will not match up if parameters are changed
+% The color scheme sensitive to parameters
+% This script gaurantees the reproduction of colormap in the main text
+% 
+% Uncomment the following lines 
+% if you are not using Quick_start.m to access this script
 % ********************************************************************
-env = 0;
 
-varname = 'SST';
-method = 'Bucket';
-do_NpD = 1;
-EP.connect_kobe  = 1;
-EP.do_focus = 1;
+% varname = 'SST';
+% method = 'Bucket';
+% do_NpD = 1;
+% EP.connect_kobe  = 1;
+% EP.do_focus = 1;
+
+
 P = HM_lme_exp_para(varname,method);
-
 key = 1e5;                                   % A threshold to combine groups
                                              % in the display
 do_lower_case = 1;                           % lower case for panel labels
@@ -20,7 +23,7 @@ do_lower_case = 1;                           % lower case for panel labels
 % ****************************
 % Find the LME file to read
 % ****************************
-dir_home = HM_OI('home',env);
+dir_home = HM_OI('home');
 app = ['HM_',varname,'_',method];
 if app(end)=='_', app(end)=[]; end
 app(end+1) = '/';
@@ -44,7 +47,7 @@ end
 % ************************************
 % Prepare and save the color scheme **
 % ************************************
-col_raw = HM_Fig_1_color_scheme(varname,method,do_NpD,key,env,EP);
+col_raw = HM_Fig_1_color_scheme(varname,method,do_NpD,key,1,EP);
 
 % **********************************
 % Prepare for annual # of samples **
@@ -90,7 +93,7 @@ Total = nansum(reshape(Ratio(2,:),12,N/12),1);
 figure(1); clf;
 subplot(1,2,1); hold on;
 bar(1850:1:2014,Total,'facecolor',[1 1 1]*0,'edgecolor','none','barwidth',1);
-CDF_bar_stuck(P.yr_list,data_pic,col_pic);
+CDF_bar_stack(P.yr_list,data_pic,col_pic);
 CDF_panel([1907.5 1941.5 0 12e5],[],{},'Year',...
     'Number of bucket measurements','fontweight','normal');
 text(1909,11*1e5,char(65+do_lower_case*32),'fontsize',28,'fontweight','bold');
@@ -115,7 +118,7 @@ data_pic = [data_pic(I,:); data_pic(end,:)];
 col_pic  = [col_pic(I,:); col_pic(end,:); 0 0 0];
 grp_pic  = [grp_pic(I,:); grp_pic(end,:)];
 
-%% **************************
+% **************************
 % Generate legends
 % ***************************
 subplot(1,2,2); hold on;
@@ -150,13 +153,14 @@ set(gcf,'position',[1 1 15 5]*1.2,'unit','inches');
 set(gcf,'color','w');
 set(gcf, 'PaperPositionMode','auto');
 
-%% *********************************
+% *********************************
 % Generate Gridded ship counts   **
 % *********************************
 if strcmp(method,'Bucket'),
     list = [1908 1918; 1919 1928; 1929 1941];
 end
 
+figure(2); clf; hold on;
 for ct = 1:size(list,1)
 
     
@@ -171,12 +175,13 @@ for ct = 1:size(list,1)
     [~,Ship_deck] = max(num_temp,[],3);
     Ship_deck(NN < 100 | isnan(NN)) = nan;
 
-    figure(1+ct); clf; hold on;
+    subplot(1,3,ct); hold on;
     CDF_plot_map('pcolor',Ship_deck,'plabel',[char(65+ct+do_lower_case*32)],...
-      'region',[ 30 390 -60 70 ],'fontsize',22,'bckgrd','w','xtick',[90 180 270 360]);
+      'region',[ 30 390 -60 70 ],'fontsize',18,'bckgrd','w','xtick',[90 180 270 360]);
     colormap(gca,col_raw);
     caxis([0.5 size(unique_grp,1)+0.5]);
-    set(gcf,'position',[1 6 15 10]/1.7,'unit','inches');
-    set(gcf,'position',[1 6 15 10]/1.7,'unit','inches');
     colorbar off;
 end
+
+set(gcf,'position',[1 1 15 5]*1.2,'unit','inches');
+set(gcf,'position',[1 1 15 5]*1.2,'unit','inches');

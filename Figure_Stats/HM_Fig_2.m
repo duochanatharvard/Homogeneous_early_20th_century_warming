@@ -1,19 +1,32 @@
-clear;              
-do_NpD = 1;
-env = 0;
+HM_load_package;
+
+% Uncomment the following lines 
+% if you are not using Quick_start.m to access this script
+% 
+% varname = 'SST';
+% method  = 'Bucket';
+% 
+% do_NpD = 1;
+% app_exp = 'cor_err';
+% EP.do_rmdup = 0;
+% EP.do_rmsml = 0;
+% EP.sens_id  = 0;
+% EP.do_fewer_first = 0;
+% EP.connect_kobe   = 1;
+% EP.do_add_JP = 0;
+% EP.yr_start = 1850;
+
 yint = 1;
-app_version = 'cor_err';
 do_sort = 1;
 num_col = 3;
-ysrt = 1850;
-alpha    = 0.05;
-varname = 'SST';
-method = 'Bucket';
+ysrt    = 1850;
+alpha   = 0.05;
+figure(3);
 
 % *******************************************************
 % Read Data   
 % *******************************************************
-dir_home = HM_OI('home',env);
+dir_home = HM_OI('home');
 app = ['HM_',varname,'_',method];
 if app(end)=='_', app(end)=[]; end
 app(end+1) = '/';
@@ -37,7 +50,7 @@ dir_bin  = [dir_load,HM_OI('LME_run')];
 file_lme = [dir_bin,'LME_',app(1:end-1),'_yr_start_',num2str(EP.yr_start),...
             '_deck_level_',num2str(do_NpD),'_',app_exp,read_app,'.mat'];
 
-disp(file_lme)
+% disp(file_lme)
 
 clear('out','test_mean','test_random')
 load(file_lme,'out')
@@ -58,7 +71,7 @@ N_rnd   = size(out.bias_fixed_random,1);
 fixed_mean   = repmat(out.bias_fixed,1,165)';
 test = fixed_mean + out.bias_decade;
 
-%% *******************************************************
+% *******************************************************
 % Find nations that are to be marked by '*' or '**'    **
 % *******************************************************
 if yint == 1,
@@ -68,13 +81,13 @@ if yint == 1,
 end
 Z_stats = (1 - normcdf(abs(out.bias_fixed ./ out.bias_fixed_std)))*2;
 Sig_Nat_90 = Z_stats < alpha;
-Sig_Nat_BF = Z_stats < alpha/numel(Z_stats);
+Sig_Nat_BF = Z_stats < alpha/46;
 List_Nat = out.unique_grp;
 
-%% ***************************************************************************
+% ***************************************************************************
 % Add a section that reads the number of measurements from individual groups
 % ***************************************************************************
-dir_home = HM_OI('home',env);
+dir_home = HM_OI('home');
 app = ['HM_',varname,'_',method];
 if app(end)=='_', app(end)=[]; end
 app(end+1) = '/';
@@ -89,7 +102,7 @@ unique_grp(pst(2:end),:) = [];
 
 Stats_glb = squeeze(nansum(Stats_glb,2));
 
-%% *******************************************************
+% *******************************************************
 % Prepare Data to be plotted                           **
 % *******************************************************
 if do_sort == 1;
@@ -108,7 +121,7 @@ if do_sort == 1;
     List_Nat   = List_Nat(l,:);
 end
 
-%% *******************************************************
+% *******************************************************
 % Find the color scheme                                **
 % *******************************************************
 col = colormap_CD([ .5 .67; .05 0.93],[.9 .2],[0 0],10);
@@ -121,10 +134,10 @@ wid = (log10(Stats_glb')+1)/15;
 l = any(~isnan(out.bias_decade([1908:1941]-1849,:)),1);
 deck_bf = out.unique_grp(l,:);
 
-%% *******************************************************
+% *******************************************************
 % Generate Figures                                     **
-%% *******************************************************
-figure(1);clf;hold on;
+% *******************************************************
+figure(3);clf;hold on;
 num_row = 20;
 pic = test';
 
@@ -153,7 +166,7 @@ for i = 1:size(pic,1)
         end
     end
     
-    if Sig_Nat_BF(i),
+    if Sig_Nat_BF(i) & ismember(List_Nat(i,:),deck_bf,'rows'),
         surfix = '** ';
     elseif Sig_Nat_90(i),
         surfix = '* ';
@@ -192,8 +205,6 @@ for i = 1:size(pic,1)
     set(gca,'fontsize',12,'fontweight','Normal');
 end
 
-%%
-
 NN = ceil(size(test,2)/num_col);
 
 if yint == 1,
@@ -204,9 +215,7 @@ if yint == 1,
     end
 end
 
-%%
-figure(1);
-subplot(num_row,3,out_ly{end}),
+figure(3);  subplot(num_row,3,out_ly{end}),
 for i = 1:size(col,1)
     patch([0 1 1 0]+i - 1,[0 0 1 1],col(i,:),'linewi',1);
 end
@@ -227,3 +236,6 @@ else
     end
 end
 set(gcf,'color','w')
+
+set(gcf,'position',[1 1 15 8]*1.2,'unit','inches');
+set(gcf,'position',[1 1 15 8]*1.2,'unit','inches');

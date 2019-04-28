@@ -1,3 +1,4 @@
+% Statistics of number of SSTs from individual nation-deck groups.
 % Result of this script is provided as "Stats_HM_SST_Bucket_deck_level_1.mat"
 
 HM_load_package;

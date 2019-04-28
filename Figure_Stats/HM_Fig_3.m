@@ -1,17 +1,22 @@
-clear;
+HM_load_package;
 
-% ********************************************************************
-% Do not change any parameters except ```env```
-% ********************************************************************
-env = 0;
+% Uncomment the following lines 
+% if you are not using Quick_start.m to access this script
+% 
+% varname = 'SST';
+% method  = 'Bucket';
+% 
+% do_NpD = 1;
+% app_exp = 'cor_err';
+% EP.do_rmdup = 0;
+% EP.do_rmsml = 0;
+% EP.sens_id  = 0;
+% EP.do_fewer_first = 0;
+% EP.connect_kobe   = 1;
+% EP.do_add_JP = 0;
+% EP.yr_start = 1850;
 
-varname = 'SST';
-method = 'Bucket';
-do_NpD = 1;
-EP.do_rmdup = 0;
-EP.do_add_JP = 0;
-EP.connect_kobe = 1;
-EP.yr_start = 1850;
+
 alpha = 0.05;
 reso_x = 5;
 reso_y = 5;
@@ -53,7 +58,7 @@ load(file_rnd,'Save_trd')
 % ********************************************************************
 % Read Trends from other datasets
 % ********************************************************************
-file_otds = [HM_OI('Mis',env),'1908_1941_Trd_TS_and_pdo_from_all_existing_datasets_20180914.mat'];
+file_otds = [HM_OI('Mis',env),'1908_1941_Trd_TS_and_pdo_from_all_existing_datasets_20190424.mat'];
 other_ds  = load(file_otds,'hadsst3_en','sampling','hadsst3');
 
 % ********************************************************************
@@ -72,10 +77,10 @@ sig_cored = HM_function_sig_member(data_in,Main_trd(:,:,2),alpha);
 % ********************************************************************
 % Figure: Trends
 % ********************************************************************
-figure(1); clf; hold on;
+figure(4); clf; hold on;
 for i = 1:3
 
-    figure(i);clf; hold on;
+    subplot(3,1,i); hold on;
 
     col = [ 20 0 113; 25 1 153; 24 5 190; 22 16 223; 62 73 233; 110 127 233;...
             153 170 235; 190 204 239; 224 232 246; 255 255 255;...
@@ -113,21 +118,22 @@ for i = 1:3
         for jj = 1:(180/reso_y)
             if temp_sig(ii,jj) == -1
                 if ii*reso_x-reso_x/2 < 30,
-                    m_plot(ii*reso_x-reso_x/2+360,jj*reso_y-reso_y/2-90,'kv','markersize',4);
+                    m_plot(ii*reso_x-reso_x/2+360,jj*reso_y-reso_y/2-90,'k.','markersize',5);
                 else
-                    m_plot(ii*reso_x-reso_x/2,jj*reso_x-reso_x/2-90,'kv','markersize',4);
+                    m_plot(ii*reso_x-reso_x/2,jj*reso_x-reso_x/2-90,'k.','markersize',5);
                 end
             elseif temp_sig(ii,jj) == 1
                 if ii*reso_x-reso_x/2 < 30,
-                    m_plot(ii*reso_x-reso_x/2+360,jj*reso_y-reso_y/2-90,'k+','markersize',6);
+                    m_plot(ii*reso_x-reso_x/2+360,jj*reso_y-reso_y/2-90,'k.','markersize',5);
                 else
-                    m_plot(ii*reso_x-reso_x/2,jj*reso_x-reso_x/2-90,'k+','markersize',6);
+                    m_plot(ii*reso_x-reso_x/2,jj*reso_x-reso_x/2-90,'k.','markersize',5);
                 end
             end
         end
     end
 
     daspect([1 .8 1]);
-    set(gcf,'position',[1 1 10 8]*.95,'unit','inches')
-    set(gcf,'position',[1 1 10 8]*.95,'unit','inches')
 end
+
+set(gcf,'position',[1 10 10 12]*1.15,'unit','inches')
+set(gcf,'position',[1 10 10 12]*1.15,'unit','inches')

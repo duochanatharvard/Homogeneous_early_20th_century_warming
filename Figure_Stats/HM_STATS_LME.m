@@ -1,27 +1,25 @@
-clear;
+HM_load_package;
 
-varname = 'SST';
-method  = 'Bucket';
-
-do_NpD = 1;
-env = 0;
-app_exp = 'cor_err';
-EP.do_rmdup = 0;
-EP.do_rmsml = 0;
-EP.sens_id  = 0;
-EP.do_fewer_first = 0;
-EP.connect_kobe   = 1;
-EP.do_add_JP = 0;
-EP.yr_start = 1850;
+% Uncomment the following lines 
+% if you are not using Quick_start.m to access this script
+% 
+% varname = 'SST';
+% method  = 'Bucket';
+% 
+% do_NpD = 1;
+% app_exp = 'cor_err';
+% EP.do_rmdup = 0;
+% EP.do_rmsml = 0;
+% EP.sens_id  = 0;
+% EP.do_fewer_first = 0;
+% EP.connect_kobe   = 1;
+% EP.do_add_JP = 0;
+% EP.yr_start = 1850;
 
 % ******
 % O/I **
 % ******
-if ~exist('env','var'),
-    env = 1;            % 1 means on odyssey
-end
-
-dir_home = HM_OI('home',env);
+dir_home = HM_OI('home');
 app = ['HM_',varname,'_',method];
 if app(end)=='_', app(end)=[]; end
 app(end+1) = '/';
@@ -48,20 +46,6 @@ for i =  1:5
 end
 
 % ************************************************************
-% Numbers in Table S1
-% ************************************************************
-if 0,
-    l = any(~isnan(a([1908:1941]-1849,:)),1);
-    num2str(out.bias_fixed(l),'%6.2f')
-    un = CDC_std(out.bias_fixed_random(:,l),1)';
-    p  = 2*(1-normcdf(abs(out.bias_fixed(l)./un),0,1));
-    nnz(p<0.05)
-    nnz(p<0.05/46)
-
-    [out.bias_fixed(l)  p<0.05   p<0.05/46 p]
-end
-
-% ************************************************************
 % Deck 118: changes in offsets
 % ************************************************************
 id = find(out.unique_grp(:,3) == 118);
@@ -73,23 +57,37 @@ yrs = 1908:1930;
 a2 = nanmean(out.bias_decade_annual(yrs-1849,id)) + out.bias_fixed(id) + nanmean(out.bias_region([2 3 5],id));
 c2 = squeeze(nanmean(out.bias_decade_rnd_annual(yrs-1849,id,:))) + squeeze(out.bias_fixed_random(:,id)) + squeeze(nanmean(out.bias_region_rnd([2 3 5],id,:)));
 
-a1 - a2
-CDC_std(c1-c2,1) * 2
-
-a1 
-CDC_std(c1,1) * 2
-
-a2 
-CDC_std(c2,1) * 2
+disp(['----------------------------------------------------------'])
+disp([' '])
+disp(['The mean offset of Japanese Cobe Collection measurements'])
+disp(['over the NP from 1908-1930 is ',num2str(a2,'%6.2f'),'C,'])
+disp(['and its 2 s.d. uncertainty is ',num2str(CDC_std(c2,1) * 2,'%6.2f'),'C.'])
+disp([' '])
+disp(['The mean offset of Japanese Cobe Collection measurements'])
+disp(['over the NP from 1935-1941 is ',num2str(a1,'%6.2f'),'C,'])
+disp(['and its 2 s.d. uncertainty is ',num2str(CDC_std(c1,1) * 2,'%6.2f'),'C.'])
+disp([' '])
+disp(['Changes in the mean offsets of Japanese Cobe Collection measurements'])
+disp(['over the NP from 1908-1930 to 1935-1941 is ',num2str(a1 - a2,'%6.2f'),'C,'])
+disp(['and its 2 s.d. uncertainty is ',num2str(CDC_std(c1 - c2,1) * 2,'%6.2f'),'C.'])
+disp([' '])
+disp(['----------------------------------------------------------'])
+disp([' '])
 
 % ************************************************************
 % Deck 156: mean offsets
 % ************************************************************
 id = find(out.unique_grp(:,3) == 156);
 yrs = 1908:1912;
-nanmean(out.bias_decade_annual(yrs-1849,id)) + out.bias_fixed(id) + nanmean(out.bias_region([1 4],id))
+a = nanmean(out.bias_decade_annual(yrs-1849,id)) + out.bias_fixed(id) + nanmean(out.bias_region([1 4],id));
 c = squeeze(nanmean(out.bias_decade_rnd_annual(yrs-1849,id,:))) + squeeze(out.bias_fixed_random(:,id)) + squeeze(nanmean(out.bias_region_rnd([1 4],id,:)));
-CDC_std(c,1) * 2
+
+disp(['The mean offset of deck 156 measurements'])
+disp(['over the NA from 1908-1912 is ',num2str(a,'%6.2f'),'C,'])
+disp(['and its 2 s.d. uncertainty is ',num2str(CDC_std(c,1) * 2,'%6.2f'),'C.'])
+disp([' '])
+disp(['----------------------------------------------------------'])
+disp([' '])
 
 % ************************************************************
 % DE Deck 192: trend
@@ -100,5 +98,13 @@ a = out.bias_decade_annual(yrs-1849,id) + out.bias_fixed(id);
 b = squeeze(out.bias_decade_rnd_annual(yrs-1849,id,:)) + repmat(out.bias_fixed_random(:,id)',numel(yrs),1);
 c = CDC_trend(a,1:numel(yrs),1);
 d = CDC_trend(b,1:numel(yrs),1);
-c{1} * numel(yrs)
-CDC_std(d{1} * numel(yrs),2) * 2
+c{1} * numel(yrs);
+CDC_std(d{1} * numel(yrs),2) * 2;
+
+
+disp(['The trend in offsets of German deck 192 measurements'])
+disp(['over the NA from 1920-1941 is ',num2str(c{1} * numel(yrs),'%6.2f'),'C/',num2str(numel(yrs)),' years,'])
+disp(['and its 2 s.d. uncertainty is ',num2str(CDC_std(d{1} * numel(yrs),2) * 2,'%6.2f'),'C/',num2str(numel(yrs)),' years.'])
+disp([' '])
+disp(['----------------------------------------------------------'])
+disp([' '])

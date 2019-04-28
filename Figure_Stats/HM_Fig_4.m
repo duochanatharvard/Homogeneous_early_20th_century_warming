@@ -1,18 +1,23 @@
-clear;
+HM_load_package;
 
-% ********************************************************************
-% Do not change any parameters except ```env```
-% ********************************************************************
-env = 0;
+% Uncomment the following lines 
+% if you are not using Quick_start.m to access this script
+% 
+% varname = 'SST';
+% method  = 'Bucket';
+% 
+% do_NpD = 1;
+% app_exp = 'cor_err';
+% EP.do_rmdup = 0;
+% EP.do_rmsml = 0;
+% EP.sens_id  = 0;
+% EP.do_fewer_first = 0;
+% EP.connect_kobe   = 1;
+% EP.do_add_JP = 0;
+% EP.yr_start = 1850;
+% EP.do_focus = 1;
 
-varname = 'SST';
-method = 'Bucket';
-do_NpD = 1;
-EP.do_rmdup = 0;
-EP.do_add_JP = 0;
-EP.connect_kobe = 1;
-EP.do_focus = 1;
-EP.yr_start = 1850;
+
 P = HM_lme_exp_para(varname,method);
 yr_grid = P.yr_list(1) - 1;
 P = HM_correct_para;
@@ -29,9 +34,9 @@ app = ['HM_',varname,'_',method];
 if app(end)=='_', app(end)=[]; end
 app(end+1) = '/';
 
-dir_home = HM_OI('home',env);
+dir_home = HM_OI('home');
 dir_load = [dir_home,app];
-dir_mis  = [dir_home,HM_OI('mis',env)];
+dir_mis  = [dir_home,HM_OI('mis')];
 
 file_idv = [dir_load,'SUM_corr_idv_',app(1:end-1),'_deck_level_',...
                      num2str(do_NpD),'_GC',...
@@ -63,7 +68,7 @@ pic_rnd  = squeeze(nanmean(cor_rnd.Save_TS,1));
 % ***************************************************
 % Figure: Time series of individual regions       **
 % ***************************************************
-figure(1); clf;
+figure(5); clf;
 for reg = 1:2
     subplot(2,1,reg), hold on;
 
@@ -91,7 +96,7 @@ for reg = 1:2
     if strcmp(varname,'SST'),
         CDF_patch(pic_t,pic_otds_rnd,[1 .6 .6],0.0455);
         CDF_patch(pic_t,pic,[.6 .7 1],0.0455);
-        CDF_patch(pic_t,pic_hadisst2,[1 .8 .6],0.00000001);
+        CDF_patch(pic_t,pic_hadisst2,[1 .8 .6],0.0455);
     end
 
     col_ot = [         0         0         0
