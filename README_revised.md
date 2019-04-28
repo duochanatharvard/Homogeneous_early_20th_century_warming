@@ -19,9 +19,9 @@ Run [Chan_et_al_2019_init.m](Chan_et_al_2019_init.m) to initialize the analysis.
 
 <br>
 
-## Quick start
+## Quick reproduction of Figures and Tables
 
-After initialization, run [Quick_start.m](Quick_start.m), a rapper that run scripts to generate Fig. 1-4 and Table 1, as well as numbers reported in the main text.
+After initialization, run [Quick_reproduction.m](Quick_reproduction.m), a rapper that run scripts to generate Fig. 1-4 and Table 1, as well as numbers reported in the main text.
 
 __[Prerequisite]__ Please make sure that you have the following dependency files downloaded and placed in corresponding directories.
 
@@ -200,7 +200,7 @@ This step will generate the following files in `$home_ICOADSb/HM_SST_Bucket/`, w
 
 ---
 
-__B.5.__ This step will be the same as the quick start that generates Fig. 1-4 and Table 1, as well as numbers reported in the main text.
+__B.5.__ This step will be the same as the [quick reproduction](https://github.com/duochanatharvard/Homogeneous_early_20th_century_warming#quick-reproduction)  that generates Fig. 1-4 and Table 1, as well as numbers reported in the main text.
 
 
 <br>
