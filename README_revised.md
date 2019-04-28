@@ -200,7 +200,7 @@ This step will generate the following files in `$home_ICOADSb/HM_SST_Bucket/`, w
 
 ---
 
-__B.5.__ This step will be the same as the [quick reproduction](https://github.com/duochanatharvard/Homogeneous_early_20th_century_warming#quick-reproduction)  that generates Fig. 1-4 and Table 1, as well as numbers reported in the main text.
+__B.5.__ This step will be the same as the [quick reproduction](https://github.com/duochanatharvard/Homogeneous_early_20th_century_warming#quick-reproduction-of-figures-and-tables)  that generates Fig. 1-4 and Table 1, as well as numbers reported in the main text.
 
 
 <br>
