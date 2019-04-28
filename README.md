@@ -15,7 +15,7 @@ Run [Chan_et_al_2019_init.m](Chan_et_al_2019_init.m) to initialize the analysis.
 
 `Chan_et_al_init($home_data)`
 
-![image](Directories_2.png)
+![image](Directories_3.png)
 
 <br>
 
