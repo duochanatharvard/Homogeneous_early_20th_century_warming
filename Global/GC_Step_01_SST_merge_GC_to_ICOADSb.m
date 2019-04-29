@@ -60,8 +60,7 @@ file_save = [dir_save,'HvdSST_Bucket_only_do_rmdup_',num2str(EP.do_rmdup),...
           '_correct_kobe_',num2str(EP.do_add_JP),...
           '_connect_kobe_',num2str(EP.connect_kobe),...
               '_yr_start_',num2str(EP.yr_start),'.mat'];
-save(file_save,'SST_Raw','SST_GC','SST_RC','SST_GCRC','-v7.3')
-
+% save(file_save,'SST_Raw','SST_GC','SST_RC','SST_GCRC','-v7.3')
 
 ICOADSa = SST_GC;
 ICOADSb = SST_GCRC;
@@ -69,7 +68,4 @@ lon = 2.5:5:357.5;
 lat = -87.5:5:90;
 yrs = 1850:2014;
 file_save = [dir_save,'ICOADS_a_b.mat'];
-save('ICOADS_a_b.mat','ICOADSa','ICOADSb','lon','lat','yrs','-v7.3')
-
-
-
+save(file_save,'ICOADSa','ICOADSb','lon','lat','yrs','-v7.3')
