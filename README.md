@@ -101,7 +101,7 @@ The preprocessing contains five steps (see below).  Among which, step __A.2__ fo
 __A.1.__ [ICOADS_Step_01_ascii2mat.m](Preprocess/ICOADS_Step_01_ascii2mat.m)  converts ICOADS3.0 data from ASCII format to .mat files and stores them in `$home_ICOADS3/ICOADS_01_mat_files/`.
 
 __A.2.__ [ICOADS_Step_02_pre_QC.m](Preprocess/ICOADS_Step_02_pre_QC.m) assigns missing country information and measurement method and outputs files to
-`$Home_ICOADS3.O/ICOADS_02_pre_QC/`.
+`$home_ICOADS3.O/ICOADS_02_pre_QC/`.
 
 __A.3.__ [ICOADS_Step_03_WM.m](Preprocess/ICOADS_Step_03_WM.m) computes winsorized mean of 5-day SST at 1 degree resolution.  These gridded data are stored in `$home_ICOADS3/ICOADS_03_WM/`.
 
@@ -184,9 +184,15 @@ __[Prerequisite]__ please make sure that you have the following data or metadata
 
   * __corr_idv_HM_SST_Bucket_\*_en_0_\*.mat__: SST with only groupwise corrections using maximum likelihood estimates of offsets, which is an output from step __B.3__ and should be placed in `$home_ICOADSb/HM_SST_Bucket/Step_05_corr_idv/`.  It can be downloaded from [here]().
 
-  * __SUM_corr_rnd_HM_SST_Bucket_\*.mat__ and __SUM_corr_idv_HM_SST_Bucket_\*.mat__: statistics of SST with only groupwise corrections, which are outputs from step __B.3__ and should be placed in `$home_ICOADSb/HM_SST_Bucket/`.  It can be downloaded from [here]().
+  * __SUM_corr_rnd_HM_SST_Bucket_\*.mat__ and __SUM_corr_idv_HM_SST_Bucket_\*.mat__: key statistics of SST with only groupwise corrections, which are outputs from step __B.3__ and should be placed in `$home_ICOADSb/HM_SST_Bucket/`.  It can be downloaded from [here]().
+
+Following files are results of existing major SST estimates, i.e.,  ERSST5, COBESST2, HadISST2, and HadSST3.  These files can be downloaded from [here]() and should be placed in `$home_ICOADSb/Miscellaneous/`.
 
   * __Global_Bucket_Correction_start_ratio_35_mass_small_0.65_mass_large_1.7_start_ratio_35.mat__: our reproduced 1850-2014 common bucket bias correction.  The reproduction follows [Kennedy et al., (2012)](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2010jd015220) and details can be found in Extended Data Fig.8 and Supplemental Information Table 2 in Chan et al., submitted.  These corrections involve running two bucket models, which can be accessed from [here](https://github.com/duochanatharvard/SST_Bucket_Model).
+
+  * __1908_1941_Trd_TS_and_pdo_from_all_existing_datasets_20190424.mat__: key statistics for existing major SST estimates.  We use HadSST3 ensemble members to estimate uncertainties associated with common bucket bias corrections.  
+
+  * __All_earlier_SST_restimates_regridded_to_5x5_grids.mat__.  We use HadSST3 ensemble members to estimate uncertainties associated with common bucket bias corrections.
 
 Run [HM_Step_07_Merge_GC.m](HM_Step_07_Merge_GC.m) to run step __B.4__.  The script first calls [GC_Step_01_SST_merge_GC_to_ICOADSb.m](Global/GC_Step_01_SST_merge_GC_to_ICOADSb.m) to generate ICOADSa and ICOADSb and then calls [GC_Step_02_add_GC_to_ICOADSa_statistics.m](GC_Step_02_add_GC_to_ICOADSa_statistics.m) to incorporate key statistics associated with common bucket corrections to __SUM_corr_idv_HM_SST_Bucket_*.mat__ and __SUM_corr_rnd_HM_SST_Bucket_*.mat__.  
 

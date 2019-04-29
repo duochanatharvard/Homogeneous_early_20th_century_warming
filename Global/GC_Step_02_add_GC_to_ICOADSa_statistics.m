@@ -62,7 +62,7 @@ MASK = HM_function_mask_JP_NA;
 % Compute uncertainty of statistics of global correction from HadSST3
 % ****************************************************************
 dir_mis  = HM_OI('Mis',env);
-file_mis = [dir_mis,'1908_1941_Trd_TS_and_pdo_from_all_existing_datasets_20180914.mat'];
+file_mis = [dir_mis,'1908_1941_Trd_TS_and_pdo_from_all_existing_datasets_20190424.mat'];
 load(file_mis,'hadsst3','hadsst3_en');
 
 % ****************************************************************
