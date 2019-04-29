@@ -21,7 +21,7 @@ Run [Chan_et_al_2019_init.m](Chan_et_al_2019_init.m) to initialize the analysis.
 
 ## Quick reproduction of Figures and Tables
 
-After initialization, run [Quick_reproduction.m](Quick_reproduction.m), a rapper that run scripts to generate Fig. 1-4 and Table 1, as well as numbers reported in the main text.
+After initialization, run [Quick_reproduction.m](Quick_reproduction.m), a wrapper that run scripts to generate Fig. 1-4 and Table 1, as well as numbers reported in the main text.
 
 __[Prerequisite]__ Please make sure that you have the following dependency files downloaded and placed in corresponding directories.
 
