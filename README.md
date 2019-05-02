@@ -4,14 +4,14 @@
 
 Matlab and shell scripts associated with the paper "Correcting datasets leads to more homogeneous early 20th century sea surface warming " by Duo Chan, Elizabeth C. Kent, David I. Berry, and Peter Huybers.
 
-Most of these codes are [Matlab](https://www.mathworks.com/products/matlab.html) .m files .  We provide a [quick start function](Quick_start.m) for fast reproduction of Figures and Table in the main text.  If you are reproducing the [full analysis](), which takes more computational resources and time to run, we provide two Shell template scripts that runs these Matlab codes on clusters.  The provided Shell template is for submitting jobs on the Harvard [Odyssey Cluster](https://www.rc.fas.harvard.edu/odyssey/) that uses a [SLURM workload manager](https://slurm.schedmd.com/documentation.html).    
+Most of these codes are [Matlab](https://www.mathworks.com/products/matlab.html) .m files .  We provide a script [here](Quick_reproduction.m) for fast reproduction of Figures and Table in the main text.  If you are reproducing the [full analysis](), which takes more computational resources and time to run, we provide two shell scripts as templates that runs the appropriate Matlab codes on clusters.  The provided shell template is for submitting jobs on the Harvard [Odyssey Cluster](https://www.rc.fas.harvard.edu/odyssey/) that uses a [SLURM workload manager](https://slurm.schedmd.com/documentation.html).    
 
-Though we have made our best to comment codes and provide all dependencies, and tested these codes on a clean computer, we are unlikely to be 100% successful.  If you are trying to use these codes to reproduce our results and have identified missing files or dependencies, please contact [Duo Chan](duochan@g.harvard.edu).
+If you have issues implementing the above scripts, or identify any deficiencies, please contact [Duo Chan](duochan@g.harvard.edu).
 
 <br>
 
 ## Get started:
-Run [Chan_et_al_2019_init.m](Chan_et_al_2019_init.m) to initialize the analysis.  This script will add all codes in this package to Matlab path and set up directories structured following the below figure.  The default path will be the directory of this package; so make sure that enough disk space is available (~XGB for simply reproducing figures and tables and ~70GB for full reproduction), otherwise, specify another directory to store the data:
+Run [Chan_et_al_2019_init.m](Chan_et_al_2019_init.m) to initialize the analysis.  This script will add all codes in this package to the Matlab path and set up directories structured following the below figure.  The default path will be the directory of this package; so make sure that enough disk space is available (~XGB for simply reproducing figures and tables and ~70GB for full reproduction), or, specify another directory to store the data:
 
 `Chan_et_al_init($home_data)`
 
@@ -21,9 +21,9 @@ Run [Chan_et_al_2019_init.m](Chan_et_al_2019_init.m) to initialize the analysis.
 
 ## Quick reproduction of Figures and Tables
 
-After initialization, run [Quick_reproduction.m](Quick_reproduction.m), a wrapper that run scripts to generate Fig. 1-4 and Table 1, as well as numbers reported in the main text.
+After initialization, run [Quick_reproduction.m](Quick_reproduction.m), a wrapper that runs scripts to generate Figs. 1-4 and Table 1, as well as the numbers reported in the main text.
 
-__[Prerequisite]__ Please make sure that you have the following dependency files downloaded and placed in corresponding directories.
+__[Prerequisite]__ Ensure that you have the following dependency files downloaded and placed in corresponding directories.
 
 * __SUM_corr_idv_HM_SST_Bucket_GC_*.mat__: key statistics for ICOADSa and ICOADSb, which can be downloaded from [here]() and should be placed in `$home_ICOADSb/HM_SST_Bucket/`.  Key statistics include the spatial pattern of 1908-1941 trends, monthly SSTs over the North Pacific and North Atlantic, monthly SSTs near East Asia and the Eastern U.S., and PDO indices.
 
@@ -54,7 +54,7 @@ Below is the flow chart of the full analysis.
 
 ![image](Flow_chart.png)
 
-Several steps in processing are memory and computationally intensive.  Our analysis was run on Harvard Research Computing clusters and uses 200 cpus and 150GB memory per cpu, and requires 5,000 core-hours of computation and 300GB of disk space.  
+Several processing steps are memory and computationally intensive.  Our analysis was run on Harvard Research Computing clusters and used 1200 CPUs and one analysis uses 150GB memory per CPU, and required 6,000 core-hours of computation and 350GB of disk space.  
 
 For purposes of facilitating reproduction we have also provided files resulting from our computation at various stages of the analysis (indicated by red arrows).
 
@@ -63,9 +63,9 @@ For purposes of facilitating reproduction we have also provided files resulting 
 ## A. Preprocess:
 This folder contains scripts for downloading and preprocessing the ICOADS3.0 data.
 
-Please make sure that 270GB of disk space is available for raw ICOADS3.0 and outputs during preprocessing steps, and we recommend to use a cluster.  Or you can skip preprocessing by downloading the [preprocessed .mat files]() (35GB) and place them in `$home_ICOADS3/ICOADS_QCed/`.   
+Ensure that 270GB of disk space is available for raw ICOADS3.0 and outputs during preprocessing steps, and we recommend to use a cluster.  Or you can skip preprocessing by downloading the [preprocessed .mat files]() (35GB) and place them in `$home_ICOADS3/ICOADS_QCed/`.   
 
-__[Prerequisite]__ please make sure the following data and metadata are downloaded:
+__[Prerequisite]__ Ensure the following data and metadata are downloaded:
 
  * __ICOADS3.0__ raw data: [ICOADS_Step_00_download.csh](Preprocess/ICOADS_Step_00_download.csh) is the script we use to download zipped ICOADS3.0 (28GB) from [RDA dataset 548.0](https://rda.ucar.edu/datasets/ds548.0/#!description).  Please download files to `$home_ICOADS3/ICOADS_00_raw_zip/`. We have also archived raw data we used [here]().  After downloading, unzip files and place them in `$home_ICOADS3/ICOADS_00_raw/`.  Note that unzipped ICOADS3.0 files are 153GB in total.
 
@@ -96,7 +96,7 @@ To perform the preprocessing, run
 
 ---
 
-The preprocessing contains five steps (see below).  Among which, step __A.2__ follows [Chan et al., submitted]() for SST and [Kent et al. (2013)](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/jgrd.50152) for nighttime marine air temperature, and steps __A.3-A.5__ follow [Rayner et al. (2006)](https://journals.ametsoc.org/doi/full/10.1175/JCLI3637.1) in performing buddy check.
+Preprocessing contains five steps, as described below.  Note that step __A.2__ follows [Chan et al., submitted]() for SST and [Kent et al. (2013)](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/jgrd.50152) for nighttime marine air temperature, and steps __A.3-A.5__ follow [Rayner et al. (2006)](https://journals.ametsoc.org/doi/full/10.1175/JCLI3637.1) in performing buddy checking.
 
 __A.1.__ [ICOADS_Step_01_ascii2mat.m](Preprocess/ICOADS_Step_01_ascii2mat.m)  converts ICOADS3.0 data from ASCII format to .mat files and stores them in `$home_ICOADS3/ICOADS_01_mat_files/`.
 
@@ -116,9 +116,7 @@ __A.5.__ [ICOADS_Step_05_Buddy_check.m](Preprocess/ICOADS_Step_05_Buddy_check.m)
 
 As shown in the [flow chart](), this step contains [pairing SST measurements](), [estimating offsets using LME](), [correcting groupwise offsets and gridding](), and [merging with common bucket corrections]().  These main steps can be accessed without preprocessing ICOADS3.0 by downloading the [preprocessed .mat files]() and place them in `$home_ICOADS3/ICOADS_QCed/`.   
 
-Again, the whole analysis takes substantial amount of computational resources to run, including several steps that process more than 2,000 files and one step that takes 150GB memory.  We recommend you to reproduce these steps on clusters and provide [Submit_main.sh](Submit_main.sh) that wraps these steps and runs scripts on the Harvard [Odyssey Cluster](https://www.rc.fas.harvard.edu/odyssey/) that uses a [SLURM workload manager](https://slurm.schedmd.com/documentation.html).   If you are using a different machinery, please make necessary changes.
-
- To run the main analysis using the shell script, simply run (the command may vary on different machineries):
+In case of use in deploying these scripts on a cluster, we provide  [Submit_main.sh](Submit_main.sh), which tuns the appropriate scripts on the Harvard [Odyssey Cluster](https://www.rc.fas.harvard.edu/odyssey/) that uses a [SLURM workload manager](https://slurm.schedmd.com/documentation.html).  To run the main analysis using the shell script, simply run (the command may vary on different machineries):
 
 ```
 ./Submit_main.sh
@@ -130,7 +128,7 @@ We strongly encourage you to go through the following documentation for prerequi
 
 __B.1.__ __Pairs__ folder contains functions that pair SST measurements.
 
-  __[Prerequisite]__ please make sure that you have the following data or metadata placed in corresponding directories.
+  __[Prerequisite]__ Ensure that you have the following data or metadata placed in corresponding directories.
 
   * __IMMA1_R3.0.0_YYYY-MM_QCed.mat__: preprocessed ICOADS3.0 .mat files from running step __A.1 - A.5__.  They should be placed in `$home_ICOADS3/ICOADS_QCed/` and can be downloaded from [here]().
 
@@ -144,13 +142,13 @@ Second, run [HM_Step_02_SUM_Pairs_dup.m](HM_Step_02_SUM_Pairs_dup.m) to combine 
 
 __B.2.__ __LME__ folder contains scripts that compute offsets among nation-deck groups of SST measurements using a linear-mixed-effect model ([Chan and Huybers., 2019](https://journals.ametsoc.org/doi/pdf/10.1175/JCLI-D-18-0562.1)).  
 
-__[Prerequisite]__ please make sure that you have the following data or metadata placed in corresponding directories.
+__[Prerequisite]__ Ensure that you have the following data or metadata placed in corresponding directories.
 
   *  __SUM_HM_SST_Bucket_Screen_Pairs_\*.mat__: all paired measurements, which is the output of step __B.1__ and should be placed in `$home_ICOADSb/HM_SST_Bucket/Step_03_SUM_Pairs/`.  It can be downloaded from [here]().
 
   * __OI_SST_inter_annual_decorrelation_20180316.mat__: SST covariance structures estimated from the 33-year [OI-SST](https://www.esrl.noaa.gov/psd/data/gridded/data.noaa.oisst.v2.highres.html) dataset.  It can be downloaded from [here]() and should be placed in `$home_ICOADSb/Miscellaneous/`.  
 
-Run, [HM_Step_03_LME_cor_err_dup.m](HM_Step_03_LME_cor_err_dup.m) to perform the offset estimation.  This script first calls [HM_lme_bin_dup.m](LME/HM_lme_bin_dup.m) to aggregate SST pairs according to combinations of groupings, years, and regions, which reduces the number of SST differences from 17.8 million to 71,973.  This step will output __BINNED_HM_SST_Bucket__ to directory `$home_ICOADSb/HM_SST_Bucket/Step_04_run/`.
+Run [HM_Step_03_LME_cor_err_dup.m](HM_Step_03_LME_cor_err_dup.m) to perform offset estimation.  This script first calls [HM_lme_bin_dup.m](LME/HM_lme_bin_dup.m) to aggregate SST pairs according to combinations of groupings, years, and regions, which reduces the number of SST differences from 17.8 million to 71,973.  This step will output __BINNED_HM_SST_Bucket__ to directory `$home_ICOADSb/HM_SST_Bucket/Step_04_run/`.
 
 [HM_Step_03_LME_cor_err_dup.m](HM_Step_03_LME_cor_err_dup.m) then calls [HM_lme_fit_hierarchy.m](LME/HM_lme_fit_hierarchy.m) to fit the LME regression model and output groupwise offset estimates.  The output file, __LME_HM_SST_Bucket_\*.mat__, will also be placed in `$home_ICOADSb/HM_SST_Bucket/Step_04_run/`.  Note that fitting the LME model involves inversion of a big matrix (~70,000 x 70,000) and takes 150GB of memory to run.
 
@@ -160,7 +158,7 @@ Data generated in this step can be downloaded from [here]().  Again, one can ski
 
 __B.3.__ __Correct__ folder contains scripts that apply groupwise corrections and generates 5x5-degree gridded SST estimates.  Groupwise corrections are applied to each SST measurement by removing offset estimated in step __B.2__ according to group, year, and region.   
 
-__[Prerequisite]__ please make sure that you have the following data or metadata placed in corresponding directories.
+__[Prerequisite]__ Ensure that you have the following data or metadata placed in corresponding directories.
 
   * __IMMA1_R3.0.0_YYYY-MM_QCed.mat__: preprocessed ICOADS3.0 .mat files from running step __A.1 - A.5__.  They should be placed in `$home_ICOADS3/ICOADS_QCed/` and can be downloaded from [here]().
 
@@ -168,19 +166,19 @@ __[Prerequisite]__ please make sure that you have the following data or metadata
 
   * __internal_climate_patterns.mat__: spatial pattern of PDO in SST.  It can be downloaded from [here]() and should be placed in `$home_ICOADSb/Miscellaneous/`.
 
-  * __nansum.m__: a function that compute summation but returns NaN when all inputs are NaN.  As reference, the default Matlab [nansum.m](https://www.mathworks.com/help/stats/nansum.html) function will return zero.  Our [nansum.m](Function/nansum.m) is in `$home_Code/Function/`.  Please __make sure__ that your Matlab calls our [nansum.m](Function/nansum.m) because SST trends in data sparse regions are sensitive.  
+  * __nansum.m__: a function that computes summation but returns NaN when all inputs are NaNs.  The default Matlab [nansum.m](https://www.mathworks.com/help/stats/nansum.html)(release 2018b) function returns zero when all entries are NaNs.  Our [nansum.m](Function/nansum.m) is in `$home_Code/Function/`.
 
 First, run [HM_Step_04_Corr_Idv.m](HM_Step_04_Corr_Idv.m) to perform corrections using the maximum likelihood estimates of offsets and generate gridded SST estimates.  [HM_Step_04_Corr_Idv.m](HM_Step_04_Corr_Idv.m) also generates gridded SST estimates that correct for only one group at a time.  This step generates SST datasets that only have groupwise corrections, i.e., __corr_idv_HM_SST_Bucket_\*.mat__.  These files can be downloaded from [here]() and should be placed in `$home_ICOADSb/HM_SST_Bucket/Step_05_corr_idv/`.
 
-Then, run [HM_Step_05_Corr_Rnd.m](HM_Step_05_Corr_Rnd.m) to generate a 1000-member ensemble of gridded SSTs, which can be used to estimate uncertainties of groupwise corrections.  For each correction member, offsets to be corrected are drawn from a multivariate normal distribution that centers on the maximum likelihood estimates [see appendix in [Chan and Huybers., (2019)](https://journals.ametsoc.org/doi/pdf/10.1175/JCLI-D-18-0562.1)].   This step generates SST datasets that only have randomized groupwise corrections, i.e., __corr_rnd_HM_SST_Bucket_\*.mat__.  These files can be downloaded from [here]() and should be placed in `$home_ICOADSb/HM_SST_Bucket/Step_06_corr_rnd/`.
+Then, run [HM_Step_05_Corr_Rnd.m](HM_Step_05_Corr_Rnd.m) to generate a 1000-member ensemble of gridded SSTs, which can be used to estimate uncertainties of groupwise corrections.  Corrections offsets are drawn from a multivariate normal distribution that centers on the maximum likelihood estimate (see appendix in [Chan and Huybers., 2019](https://journals.ametsoc.org/doi/pdf/10.1175/JCLI-D-18-0562.1)).   This step generates SST datasets that only have randomized groupwise corrections, i.e., __corr_rnd_HM_SST_Bucket_\*.mat__.  These files can be downloaded from [here]() and should be placed in `$home_ICOADSb/HM_SST_Bucket/Step_06_corr_rnd/`.
 
-As the last part of this step __B.3__, run [HM_Step_06_SUM_Corr.m](HM_Step_06_SUM_Corr.m) to compute statistics of gridded SST estimates.  These statistics include the spatial pattern of 1908-1941 trends, monthly SSTs over the North Pacific and North Atlantic, monthly SSTs near East Asia and the Eastern U.S., and PDO indices.  This step will output __SUM_corr_idv_HM_SST_Bucket_\*.mat__ (central estimates) and __SUM_corr_rnd_HM_SST_Bucket_*.mat__ (uncertainty estimates) in `$home_ICOADSb/HM_SST_Bucket/`.  Again, one can skip step __B.3.__ by downloading these two files from [here](https://github.com/duochanatharvard/SST_Bucket_Model).
+As the last part of this step __B.3__, run [HM_Step_06_SUM_Corr.m](HM_Step_06_SUM_Corr.m) to compute statistics of gridded SST estimates.  These statistics include the spatial pattern of 1908-1941 trends, monthly SSTs over the North Pacific and North Atlantic, monthly SSTs near East Asia and the Eastern U.S., and PDO indices.  This step will output __SUM_corr_idv_HM_SST_Bucket_\*.mat__ (central estimates) and __SUM_corr_rnd_HM_SST_Bucket_*.mat__ (uncertainty estimates) in `$home_ICOADSb/HM_SST_Bucket/`.  Again, one can skip step __B.3.__ by downloading the two files [here](https://github.com/duochanatharvard/SST_Bucket_Model).
 
 ---
 
 __B.4.__ __Global__ folder contains scripts that merge large-scale common bucket corrections to raw ICOADS3.0 and ICOADS3.0 with groupwise corrections.  The resulting datasets are called ICOADSa and ICOADSb, respectively.  
 
-__[Prerequisite]__ please make sure that you have the following data or metadata placed in corresponding directories.
+__[Prerequisite]__ Ensure that you have the following data or metadata placed in corresponding directories.
 
   * __corr_idv_HM_SST_Bucket_\*_en_0_\*.mat__: SST with only groupwise corrections using maximum likelihood estimates of offsets, which is an output from step __B.3__ and should be placed in `$home_ICOADSb/HM_SST_Bucket/Step_05_corr_idv/`.  It can be downloaded from [here]().
 
@@ -212,7 +210,7 @@ __B.5.__ This step will be the same as the [quick reproduction](https://github.c
 <br>
 <br>
 
-Acknowledgement:  We thank [Packard Chan](https://github.com/PackardChan) for his helps on developing this page and checking scripts using his machinery.
+Acknowledgement:  We thank [Packard Chan](https://github.com/PackardChan) for his help in developing this page and checking scripts using his machinery.
 
 Maintained by __Duo Chan__ (duochan@g.harvard.edu)
 
