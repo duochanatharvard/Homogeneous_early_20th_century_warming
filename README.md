@@ -1,5 +1,20 @@
 # More homogeneous early 20th century warming
 
+Table of Contents
+=================
+ * [Get started](#get-started)  
+ * [Quick reproduction of Figures and Tables](#quick-reproduction-of-figures-and-tables)
+ * [Overview and system requirements](#overview-and-system-requirements)
+ * [A. Preprocess](#a-preprocess)
+ * [B. Main Code](#b-main-code)
+   * [B.1-3. Pairing](#b1-3-pairing)
+   * [B.4. Estimating groupwise offsets using an LME method](#b4-estimating-groupwise-offsets-using-an-lme-method)
+   * [B.5-7. Groupwise corrections](#b5-7-groupwise-corrections)
+   * [B.8. Common bucket corrections](#b8-common-bucket-corrections)
+ * [C. Figures and Tables](#c-figures-and-tables)
+
+
+<br>
 <br>
 
 Matlab and shell scripts associated with the paper "Correcting datasets leads to more homogeneous early 20th century sea surface warming " by Duo Chan, Elizabeth C. Kent, David I. Berry, and Peter Huybers.
