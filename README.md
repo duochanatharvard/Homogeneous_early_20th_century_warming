@@ -17,7 +17,7 @@ Run [Chan_et_al_2019_init.m](Chan_et_al_2019_init.m) to initialize the analysis.
 Chan_et_al_2019_init($DATA_home)
 ```
 
-![image](Directories_3.png)
+![image](Directories.png)
 
 <br>
 
@@ -58,7 +58,7 @@ For users interested in reproducing our full analysis, we provide the following 
 
 Below is the flow chart of the full analysis.
 
-![image](Flow_chart_2.png)
+![image](Flow_chart.png)
 
 Several processing steps are memory and computationally intensive.  Our analysis was run on Harvard Research Computing clusters and used 1200 CPUs and one analysis uses 150GB memory per CPU, and required 6,000 core-hours of computation and 350GB of disk space.  
 
@@ -95,9 +95,9 @@ The following files belong to the supporting data and should be placed in `$DATA
 
  * __Dif_DMAT_NMAT_1947_1956.mat__: mean daytime and nighttime marine air temperature difference in 1947-1956,
 
- * __Buddy_std_SST.mat__:  output from step __A.4__,
+ * __Buddy_std_SST.mat__: an output from step __A.4__,
 
- * __Buddy_std_NMAT.mat__:  output from step __A.4__.
+ * __Buddy_std_NMAT.mat__: an output from step __A.4__.
 
 <br>
 
@@ -142,9 +142,11 @@ In case of use in deploying these scripts on a cluster, we provide  [Submit_main
 
 We strongly encourage you to go through the following documentation for prerequisites of individual steps and details of the workflow.
 
----
+<br>
 
-__B.1-3.__ __Pairs__ folder contains functions that pair SST measurements.
+#### B.1-3. Pairing
+
+The __Pairs__ folder contains functions that pair SST measurements.
 
   __[Prerequisite]__ Ensure that you have the following data or metadata placed in corresponding directories.
 
@@ -156,9 +158,11 @@ First, run [HM_Step_01_02_Run_Pairs_dup.m](HM_Step_01_02_Run_Pairs_dup.m) to pai
 
 Second, run [HM_Step_03_SUM_Pairs_dup.m](HM_Step_03_SUM_Pairs_dup.m) to combine screened pairs into one file, which will be used in following steps.  The combined file, __SUM_HM_SST_Bucket_Screen_Pairs_\*.mat__, is in `$DATA_home/ICOADSb/HM_SST_Bucket/Step_03_SUM_Pairs/`.  It is a check point.
 
----
+<br>
 
-__B.4.__ __LME__ folder contains scripts that compute offsets among nation-deck groups of SST measurements using a linear-mixed-effect model ([Chan and Huybers., 2019](https://journals.ametsoc.org/doi/pdf/10.1175/JCLI-D-18-0562.1)).  
+#### B.4. Estimating groupwise offsets using an LME method
+
+The __LME__ folder contains scripts that compute offsets among nation-deck groups of SST measurements using a linear-mixed-effect model ([Chan and Huybers., 2019](https://journals.ametsoc.org/doi/pdf/10.1175/JCLI-D-18-0562.1)).  
 
 __[Prerequisite]__ Ensure that you have the following data or metadata placed in corresponding directories.
 
@@ -170,9 +174,11 @@ Run [HM_Step_04_LME_cor_err_dup.m](HM_Step_04_LME_cor_err_dup.m) to perform offs
 
 [HM_Step_04_LME_cor_err_dup.m](HM_Step_04_LME_cor_err_dup.m) then calls [HM_lme_fit_hierarchy.m](LME/HM_lme_fit_hierarchy.m) to fit the LME regression model and output groupwise offset estimates.  The output file, __LME_HM_SST_Bucket_\*.mat__, is a check point and will also be placed in `$DATA_home/ICOADSb/HM_SST_Bucket/Step_04_run/`.  Note that fitting the LME model involves inversion of a big matrix (~70,000 x 70,000) and takes 150GB of memory to run.
 
----
+<br>
 
-__B.5-7.__ __Correct__ folder contains scripts that apply groupwise corrections and generates 5x5-degree gridded SST estimates.  Groupwise corrections are applied to each SST measurement by removing offset estimated in step __B.4__ according to group, year, and region.   
+#### B.5-7. Groupwise corrections
+
+The __Groupwise_Correct__ folder contains scripts that apply groupwise corrections and generates 5x5-degree gridded SST estimates.  Groupwise corrections are applied to each SST measurement by removing offset estimated in step __B.4__ according to group, year, and region.   
 
 __[Prerequisite]__ Ensure that you have the following data or metadata placed in corresponding directories.
 
@@ -190,9 +196,11 @@ Then, run [HM_Step_06_Corr_Rnd.m](HM_Step_06_Corr_Rnd.m) to generate a 1000-memb
 
 Finally, run [HM_Step_07_SUM_Corr.m](HM_Step_07_SUM_Corr.m) to compute statistics of gridded SST estimates.  These statistics include the spatial pattern of 1908-1941 trends, monthly SSTs over the North Pacific and North Atlantic, monthly SSTs near East Asia and the Eastern U.S., and PDO indices.  This step will output __SUM_corr_idv_HM_SST_Bucket_\*.mat__ (central estimates) and __SUM_corr_rnd_HM_SST_Bucket_*.mat__ (uncertainty estimates) in `$DATA_home/ICOADSb/HM_SST_Bucket/`.  The two files are downloaded as check points.
 
----
+<br>
 
-__B.8.__ __Global__ folder contains scripts that merge large-scale common bucket corrections to raw ICOADS3.0 and ICOADS3.0 with groupwise corrections.  The resulting datasets are called ICOADSa and ICOADSb, respectively.  
+#### B.8. Common bucket corrections
+
+The __Global__ folder contains scripts that merge large-scale common bucket corrections to raw ICOADS3.0 and ICOADS3.0 with groupwise corrections.  The resulting datasets are called ICOADSa and ICOADSb, respectively.  
 
 __[Prerequisite]__ Ensure that you have the following data or metadata placed in corresponding directories.
 
@@ -218,7 +226,7 @@ This step will generate the following files in `$DATA_home/ICOADSb/HM_SST_Bucket
 
   * __SUM_corr_rnd_HM_SST_Bucket_GC_\*.mat__: key statistics for 1,000 ICOADSb correction members.
 
----
+<br>
 
 ## C. Figures and Tables:
 This step will be the same as the [quick reproduction](#quick-reproduction-of-figures-and-tables)  that generates Figs. 1-4 and Table 1, as well as numbers reported in the main text.
