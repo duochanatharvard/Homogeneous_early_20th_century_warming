@@ -128,7 +128,7 @@ __A.5.__ [ICOADS_Step_05_Buddy_check.m](Preprocess/ICOADS_Step_05_Buddy_check.m)
 
 ## B. Main Code:
 
-As shown in the [flow chart](), this step contains [pairing SST measurements](), [estimating offsets using LME](), [correcting groupwise offsets and gridding](), and [merging with common bucket corrections]().  These main steps can be accessed without preprocessing ICOADS3.0 by downloading the [preprocessed .mat files](https://dataverse.harvard.edu/api/access/datafile/3424401)(35GB) and place them in `$DATA_home/ICOADS3/ICOADS_QCed/`.  When using command lines, we suggest:
+As shown in the [flow chart](), this step contains [pairing SST measurements](#b1-3-pairing), [estimating offsets using LME](#b4-estimating-groupwise-offsets-using-an-lme-method), [correcting groupwise offsets and gridding](#b5-7-groupwise-corrections), and [merging with common bucket corrections](#b8-common-bucket-corrections).  These main steps can be accessed without preprocessing ICOADS3.0 by downloading the [preprocessed .mat files](https://dataverse.harvard.edu/api/access/datafile/3424401)(35GB) and place them in `$DATA_home/ICOADS3/ICOADS_QCed/`.  When using command lines, we suggest:
 
 ```
 wget -O $target_directory/ICOADS_QCed.tar.gz  https://dataverse.harvard.edu/api/access/datafile/3424401
