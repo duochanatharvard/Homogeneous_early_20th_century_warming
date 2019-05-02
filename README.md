@@ -2,6 +2,14 @@
 
 <br>
 
+Matlab and shell scripts associated with the paper "Correcting datasets leads to more homogeneous early 20th century sea surface warming" by Duo Chan, Elizabeth C. Kent, David I. Berry, and Peter Huybers.
+
+Most of these codes are [Matlab](https://www.mathworks.com/products/matlab.html) .m files .  We provide a script [here](Quick_reproduction.m) for fast reproduction of Figures and Table in the main text.  If you are reproducing the [full analysis](#overview-and-system-requirements), which takes more computational resources and time to run, we provide two shell scripts as templates that runs the appropriate Matlab codes on clusters.  The provided shell template is for submitting jobs on the Harvard [Odyssey Cluster](https://www.rc.fas.harvard.edu/odyssey/) that uses a [SLURM workload manager](https://slurm.schedmd.com/documentation.html).    
+
+If you have issues implementing the above scripts, or identify any deficiencies, please contact Duo Chan (duochan@g.harvard.edu).
+
+<br>
+
 ## Table of Contents
  * [Get started](#get-started)  
  * [Quick reproduction of Figures and Tables](#quick-reproduction-of-figures-and-tables)
@@ -13,14 +21,6 @@
    * [B.5-7. Groupwise corrections](#b5-7-groupwise-corrections)
    * [B.8. Common bucket corrections](#b8-common-bucket-corrections)
  * [C. Figures and Tables](#c-figures-and-tables)
-
-<br>
-
-Matlab and shell scripts associated with the paper "Correcting datasets leads to more homogeneous early 20th century sea surface warming" by Duo Chan, Elizabeth C. Kent, David I. Berry, and Peter Huybers.
-
-Most of these codes are [Matlab](https://www.mathworks.com/products/matlab.html) .m files .  We provide a script [here](Quick_reproduction.m) for fast reproduction of Figures and Table in the main text.  If you are reproducing the [full analysis](#overview-and-system-requirements), which takes more computational resources and time to run, we provide two shell scripts as templates that runs the appropriate Matlab codes on clusters.  The provided shell template is for submitting jobs on the Harvard [Odyssey Cluster](https://www.rc.fas.harvard.edu/odyssey/) that uses a [SLURM workload manager](https://slurm.schedmd.com/documentation.html).    
-
-If you have issues implementing the above scripts, or identify any deficiencies, please contact Duo Chan (duochan@g.harvard.edu).
 
 <br>
 
