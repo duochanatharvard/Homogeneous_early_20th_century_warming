@@ -144,7 +144,7 @@ We strongly encourage you to go through the following documentation for prerequi
 
 <br>
 
-#### B.1-3. Pairing
+### B.1-3. Pairing
 
 The __Pairs__ folder contains functions that pair SST measurements.
 
@@ -160,7 +160,7 @@ Second, run [HM_Step_03_SUM_Pairs_dup.m](HM_Step_03_SUM_Pairs_dup.m) to combine 
 
 <br>
 
-#### B.4. Estimating groupwise offsets using an LME method
+### B.4. Estimating groupwise offsets using an LME method
 
 The __LME__ folder contains scripts that compute offsets among nation-deck groups of SST measurements using a linear-mixed-effect model ([Chan and Huybers., 2019](https://journals.ametsoc.org/doi/pdf/10.1175/JCLI-D-18-0562.1)).  
 
@@ -176,7 +176,7 @@ Run [HM_Step_04_LME_cor_err_dup.m](HM_Step_04_LME_cor_err_dup.m) to perform offs
 
 <br>
 
-#### B.5-7. Groupwise corrections
+### B.5-7. Groupwise corrections
 
 The __Groupwise_Correct__ folder contains scripts that apply groupwise corrections and generates 5x5-degree gridded SST estimates.  Groupwise corrections are applied to each SST measurement by removing offset estimated in step __B.4__ according to group, year, and region.   
 
@@ -198,7 +198,7 @@ Finally, run [HM_Step_07_SUM_Corr.m](HM_Step_07_SUM_Corr.m) to compute statistic
 
 <br>
 
-#### B.8. Common bucket corrections
+### B.8. Common bucket corrections
 
 The __Global__ folder contains scripts that merge large-scale common bucket corrections to raw ICOADS3.0 and ICOADS3.0 with groupwise corrections.  The resulting datasets are called ICOADSa and ICOADSb, respectively.  
 
