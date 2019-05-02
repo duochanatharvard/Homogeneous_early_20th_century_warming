@@ -14,7 +14,7 @@ If you have issues implementing the above scripts, or identify any deficiencies,
 Run [Chan_et_al_2019_init.m](Chan_et_al_2019_init.m) to initialize the analysis.  This script will add all codes in this package to the Matlab path and set up directories structured following the below figure.  The default path will be the directory of this package; so make sure that enough disk space is available (~3GB for simply reproducing figures and tables and ~350GB for full reproduction), or, specify another directory to store the data:
 
 ```
-Chan_et_al_2019_init($home_data)
+Chan_et_al_2019_init($DATA_home)
 ```
 
 ![image](Directories_3.png)
