@@ -62,13 +62,13 @@ Below is the flow chart of the full analysis.
 
 Several processing steps are memory and computationally intensive.  Our analysis was run on Harvard Research Computing clusters and used 1200 CPUs and one analysis uses 150GB memory per CPU, and required 6,000 core-hours of computation and 350GB of disk space.  
 
-To reproduce our analysis, run [get_supporting_data.m](get_supporting_data.m) to download [supporting data](https://dataverse.harvard.edu/api/access/datafile/3424402), unzip and move them to their target directories.
+To reproduce our analysis, run [get_supporting_data.m](get_supporting_data.m), a script that downloads [supporting data files](https://dataverse.harvard.edu/api/access/datafile/3424402), unzips and moves these files to their target directories.
 
 ```
 get_supporting_data
 ```
 
-For purposes of facilitating reproduction we have also provided files resulting from our computation at various stages of the analysis (indicated by red arrows and see below for more details).  One can choose to start from any of these check points.  Run [get_check_points.m](get_check_points.m) to download [check points](https://dataverse.harvard.edu/api/access/datafile/3424709), unzip and move them to their target directories.
+For purposes of facilitating reproduction we have also provided files resulting from our computation at various stages of the analysis (indicated by red arrows and see below for more details).  One can choose to start from any of these check points.  Run [get_check_points.m](get_check_points.m), a script that downloads [check point files](https://dataverse.harvard.edu/api/access/datafile/3424709), unzips and moves these files to their target directories.
 
 ```
 get_check_points
