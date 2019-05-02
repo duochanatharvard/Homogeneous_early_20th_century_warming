@@ -38,6 +38,6 @@ function Chan_et_al_2019_init(dir_data)
     dir_home_ICOADS3 = [dir_data,'ICOADS3/'];
     dir_home_ICOADSb = [dir_data,'ICOADSb/'];    
     save('chan_et_al_2019_directories.mat','dir_home_ICOADS3',...
-         'dir_home_ICOADSb','dir_code','-v7.3');
+         'dir_home_ICOADSb','dir_data','dir_code','-v7.3');
     
 end
