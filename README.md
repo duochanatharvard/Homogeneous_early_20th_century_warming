@@ -83,7 +83,7 @@ Ensure that 270GB of disk space is available for raw ICOADS3.0 and outputs durin
 
 __[Prerequisite]__ Ensure the following data and metadata are downloaded:
 
- * __ICOADS3.0__ raw data: [ICOADS_Step_00_download.csh](Preprocess/ICOADS_Step_00_download.csh) is the script we use to download zipped ICOADS3.0 (28GB) from [RDA dataset 548.0](https://rda.ucar.edu/datasets/ds548.0/#!description).  Please download files to `$DATA_home/ICOADS3/ICOADS_00_raw_zip/`. We have also archived raw data we used [here](https://dataverse.harvard.edu/api/access/datafile/3424400).  After downloading, unzip files and place them in `$DATA_home/ICOADS3/ICOADS_00_raw/`.  Note that unzipped ICOADS3.0 files are 153GB in total.
+ * __ICOADS3.0__ raw data: zipped ICOADS3.0 (28GB) are from [RDA dataset 548.0](https://rda.ucar.edu/datasets/ds548.0/#!description).  Please download files to `$DATA_home/ICOADS3/ICOADS_00_raw_zip/`. We have also archived raw data we used [here](https://dataverse.harvard.edu/api/access/datafile/3424400).  After downloading, unzip files and place them in `$DATA_home/ICOADS3/ICOADS_00_raw/`.  Note that unzipped ICOADS3.0 files are 153GB in total.
 
 The following files belong to the supporting data and should be placed in `$DATA_home/ICOADS3/ICOADS_Mis/`.
 
@@ -91,13 +91,13 @@ The following files belong to the supporting data and should be placed in `$DATA
 
  * __ERA_interim_AT2m_1985_2014_daily_climatology.mat__: 30-year [ERA-interim](https://www.ecmwf.int/en/forecasts/datasets/reanalysis-datasets/era-interim) 2m-air temperature daily climatology,
 
- * __Dif_DMAT_NMAT_1929_1941.mat__: Mean daytime and nighttime marine air temperature difference in 1929-1941,
+ * __Dif_DMAT_NMAT_1929_1941.mat__: mean daytime and nighttime marine air temperature difference in 1929-1941,
 
- * __Dif_DMAT_NMAT_1947_1956.mat__: Mean daytime and nighttime marine air temperature difference in 1947-1956,
+ * __Dif_DMAT_NMAT_1947_1956.mat__: mean daytime and nighttime marine air temperature difference in 1947-1956,
 
- * __Buddy_std_SST.mat__:  Output from step __A.4__,
+ * __Buddy_std_SST.mat__:  output from step __A.4__,
 
- * __Buddy_std_NMAT.mat__:  Output from step __A.4__.
+ * __Buddy_std_NMAT.mat__:  output from step __A.4__.
 
 <br>
 
@@ -200,7 +200,7 @@ __[Prerequisite]__ Ensure that you have the following data or metadata placed in
 
   * __SUM_corr_rnd_HM_SST_Bucket_\*.mat__ and __SUM_corr_idv_HM_SST_Bucket_\*.mat__: key statistics of SST with only groupwise corrections, which are outputs from step __B.6__ and should be placed in `$DATA_home/ICOADSb/HM_SST_Bucket/`.  The two files are downloaded as check points.
 
-  * __Global_Bucket_Correction_start_ratio_35_mass_small_0.65_mass_large_1.7_start_ratio_35.mat__: our reproduced 1850-2014 common bucket bias correction.  The reproduction follows [Kennedy et al., (2012)](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2010jd015220) and details can be found in Extended Data Fig.8 and Supplemental Information Table 2 in Chan et al., submitted.  These corrections involve running two bucket models, which can be accessed from [here](https://github.com/duochanatharvard/SST_Bucket_Model).  Common bucket correction is a one of the supporting data and should be placed in `$DATA_home/ICOADSb/Miscellaneous/`.
+  * __Global_Bucket_Correction_start_ratio_35_mass_small_0.65_mass_large_1.7_start_ratio_35.mat__: our reproduced 1850-2014 common bucket bias correction.  The reproduction follows [Kennedy et al., (2012)](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2010jd015220) and details can be found in Extended Data Fig.8 and Supplemental Information Table 3 in Chan et al., submitted.  These corrections involve running two bucket models, which can be accessed from [here](https://github.com/duochanatharvard/SST_Bucket_Model).  Common bucket correction is a one of the supporting data and should be placed in `$DATA_home/ICOADSb/Miscellaneous/`.
 
 Following files are results of existing major SST estimates, i.e.,  ERSST5, COBESST2, HadISST2, and HadSST3.  These files belong to the supporting data and should be placed in `$DATA_home/ICOADSb/Miscellaneous/`.
 
