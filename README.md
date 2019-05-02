@@ -126,7 +126,7 @@ We strongly encourage you to go through the following documentation for prerequi
 
 ---
 
-__B.1.__ __Pairs__ folder contains functions that pair SST measurements.
+__B.1-3.__ __Pairs__ folder contains functions that pair SST measurements.
 
   __[Prerequisite]__ Ensure that you have the following data or metadata placed in corresponding directories.
 
@@ -134,13 +134,13 @@ __B.1.__ __Pairs__ folder contains functions that pair SST measurements.
 
   * __DA_SST_Gridded_BUOY_sum_from_grid.mat__ and __Diurnal_Shape_SST.mat__: diurnal cycle estimates based on ICOADS3.0 buoy data.  They can be downloaded from [here]() and should be placed in `$home_ICOADSb/Miscellaneous/`.  
 
-First, run [HM_Step_01_Run_Pairs_dup.m](HM_Step_01_Run_Pairs_dup.m) to pair SST measurements following [Chan and Huybers (2019)](https://journals.ametsoc.org/doi/pdf/10.1175/JCLI-D-18-0562.1).  This script first calls [HM_pair_01_Raw_Pairs_dup.m](Pairs/HM_pair_01_Raw_Pairs_dup.m) to pair SST measurements within 300km and 2days of one another and then calls [HM_pair_02_Screen_Pairs_dup.m](Pairs/HM_pair_02_Screen_Pairs_dup.m) to screen pairs such that each measurement is used at most once.  Output files are stored in `$home_ICOADSb/HM_SST_Bucket/Step_01_Raw_Pairs/` and `$home_ICOADSb/HM_SST_Bucket/Step_02_Screen_Pairs/`.  
+First, run [HM_Step_01_02_Run_Pairs_dup.m](HM_Step_01_02_Run_Pairs_dup.m) to pair SST measurements following [Chan and Huybers (2019)](https://journals.ametsoc.org/doi/pdf/10.1175/JCLI-D-18-0562.1).  This script first calls [HM_pair_01_Raw_Pairs_dup.m](Pairs/HM_pair_01_Raw_Pairs_dup.m) to pair SST measurements within 300km and 2days of one another and then calls [HM_pair_02_Screen_Pairs_dup.m](Pairs/HM_pair_02_Screen_Pairs_dup.m) to screen pairs such that each measurement is used at most once.  Output files are stored in `$home_ICOADSb/HM_SST_Bucket/Step_01_Raw_Pairs/` and `$home_ICOADSb/HM_SST_Bucket/Step_02_Screen_Pairs/`.  
 
-Second, run [HM_Step_02_SUM_Pairs_dup.m](HM_Step_02_SUM_Pairs_dup.m) to combine screened pairs into one file, which will be used in following steps.  The combined file, __SUM_HM_SST_Bucket_Screen_Pairs_\*.mat__, is in `$home_ICOADSb/HM_SST_Bucket/Step_03_SUM_Pairs/`.  One can also download this file from [here]() and skip the pairing step.
+Second, run [HM_Step_03_SUM_Pairs_dup.m](HM_Step_03_SUM_Pairs_dup.m) to combine screened pairs into one file, which will be used in following steps.  The combined file, __SUM_HM_SST_Bucket_Screen_Pairs_\*.mat__, is in `$home_ICOADSb/HM_SST_Bucket/Step_03_SUM_Pairs/`.  One can also download this file from [here]() and skip the pairing step.
 
 ---
 
-__B.2.__ __LME__ folder contains scripts that compute offsets among nation-deck groups of SST measurements using a linear-mixed-effect model ([Chan and Huybers., 2019](https://journals.ametsoc.org/doi/pdf/10.1175/JCLI-D-18-0562.1)).  
+__B.4.__ __LME__ folder contains scripts that compute offsets among nation-deck groups of SST measurements using a linear-mixed-effect model ([Chan and Huybers., 2019](https://journals.ametsoc.org/doi/pdf/10.1175/JCLI-D-18-0562.1)).  
 
 __[Prerequisite]__ Ensure that you have the following data or metadata placed in corresponding directories.
 
@@ -148,15 +148,15 @@ __[Prerequisite]__ Ensure that you have the following data or metadata placed in
 
   * __OI_SST_inter_annual_decorrelation_20180316.mat__: SST covariance structures estimated from the 33-year [OI-SST](https://www.esrl.noaa.gov/psd/data/gridded/data.noaa.oisst.v2.highres.html) dataset.  It can be downloaded from [here]() and should be placed in `$home_ICOADSb/Miscellaneous/`.  
 
-Run [HM_Step_03_LME_cor_err_dup.m](HM_Step_03_LME_cor_err_dup.m) to perform offset estimation.  This script first calls [HM_lme_bin_dup.m](LME/HM_lme_bin_dup.m) to aggregate SST pairs according to combinations of groupings, years, and regions, which reduces the number of SST differences from 17.8 million to 71,973.  This step will output __BINNED_HM_SST_Bucket__ to directory `$home_ICOADSb/HM_SST_Bucket/Step_04_run/`.
+Run [HM_Step_04_LME_cor_err_dup.m](HM_Step_04_LME_cor_err_dup.m) to perform offset estimation.  This script first calls [HM_lme_bin_dup.m](LME/HM_lme_bin_dup.m) to aggregate SST pairs according to combinations of groupings, years, and regions, which reduces the number of SST differences from 17.8 million to 71,973.  This step will output __BINNED_HM_SST_Bucket__ to directory `$home_ICOADSb/HM_SST_Bucket/Step_04_run/`.
 
-[HM_Step_03_LME_cor_err_dup.m](HM_Step_03_LME_cor_err_dup.m) then calls [HM_lme_fit_hierarchy.m](LME/HM_lme_fit_hierarchy.m) to fit the LME regression model and output groupwise offset estimates.  The output file, __LME_HM_SST_Bucket_\*.mat__, will also be placed in `$home_ICOADSb/HM_SST_Bucket/Step_04_run/`.  Note that fitting the LME model involves inversion of a big matrix (~70,000 x 70,000) and takes 150GB of memory to run.
+[HM_Step_04_LME_cor_err_dup.m](HM_Step_04_LME_cor_err_dup.m) then calls [HM_lme_fit_hierarchy.m](LME/HM_lme_fit_hierarchy.m) to fit the LME regression model and output groupwise offset estimates.  The output file, __LME_HM_SST_Bucket_\*.mat__, will also be placed in `$home_ICOADSb/HM_SST_Bucket/Step_04_run/`.  Note that fitting the LME model involves inversion of a big matrix (~70,000 x 70,000) and takes 150GB of memory to run.
 
 Data generated in this step can be downloaded from [here]().  Again, one can skip this step by downloading __LME_HM_SST_Bucket_\*.mat__.
 
 ---
 
-__B.3.__ __Correct__ folder contains scripts that apply groupwise corrections and generates 5x5-degree gridded SST estimates.  Groupwise corrections are applied to each SST measurement by removing offset estimated in step __B.2__ according to group, year, and region.   
+__B.5-7.__ __Correct__ folder contains scripts that apply groupwise corrections and generates 5x5-degree gridded SST estimates.  Groupwise corrections are applied to each SST measurement by removing offset estimated in step __B.2__ according to group, year, and region.   
 
 __[Prerequisite]__ Ensure that you have the following data or metadata placed in corresponding directories.
 
@@ -168,15 +168,15 @@ __[Prerequisite]__ Ensure that you have the following data or metadata placed in
 
   * __nansum.m__: a function that computes summation but returns NaN when all inputs are NaNs.  The default Matlab [nansum.m](https://www.mathworks.com/help/stats/nansum.html)(release 2018b) function returns zero when all entries are NaNs.  Our [nansum.m](Function/nansum.m) is in `$home_Code/Function/`.
 
-First, run [HM_Step_04_Corr_Idv.m](HM_Step_04_Corr_Idv.m) to perform corrections using the maximum likelihood estimates of offsets and generate gridded SST estimates.  [HM_Step_04_Corr_Idv.m](HM_Step_04_Corr_Idv.m) also generates gridded SST estimates that correct for only one group at a time.  This step generates SST datasets that only have groupwise corrections, i.e., __corr_idv_HM_SST_Bucket_\*.mat__.  These files can be downloaded from [here]() and should be placed in `$home_ICOADSb/HM_SST_Bucket/Step_05_corr_idv/`.
+First, run [HM_Step_05_Corr_Idv.m](HM_Step_05_Corr_Idv.m) to perform corrections using the maximum likelihood estimates of offsets and generate gridded SST estimates.  [HM_Step_05_Corr_Idv.m](HM_Step_05_Corr_Idv.m) also generates gridded SST estimates that correct for only one group at a time.  This step generates SST datasets that only have groupwise corrections, i.e., __corr_idv_HM_SST_Bucket_\*.mat__.  These files can be downloaded from [here]() and should be placed in `$home_ICOADSb/HM_SST_Bucket/Step_05_corr_idv/`.
 
-Then, run [HM_Step_05_Corr_Rnd.m](HM_Step_05_Corr_Rnd.m) to generate a 1000-member ensemble of gridded SSTs, which can be used to estimate uncertainties of groupwise corrections.  Corrections offsets are drawn from a multivariate normal distribution that centers on the maximum likelihood estimate (see appendix in [Chan and Huybers., 2019](https://journals.ametsoc.org/doi/pdf/10.1175/JCLI-D-18-0562.1)).   This step generates SST datasets that only have randomized groupwise corrections, i.e., __corr_rnd_HM_SST_Bucket_\*.mat__.  These files can be downloaded from [here]() and should be placed in `$home_ICOADSb/HM_SST_Bucket/Step_06_corr_rnd/`.
+Then, run [HM_Step_06_Corr_Rnd.m](HM_Step_06_Corr_Rnd.m) to generate a 1000-member ensemble of gridded SSTs, which can be used to estimate uncertainties of groupwise corrections.  Corrections offsets are drawn from a multivariate normal distribution that centers on the maximum likelihood estimate (see appendix in [Chan and Huybers., 2019](https://journals.ametsoc.org/doi/pdf/10.1175/JCLI-D-18-0562.1)).   This step generates SST datasets that only have randomized groupwise corrections, i.e., __corr_rnd_HM_SST_Bucket_\*.mat__.  These files can be downloaded from [here]() and should be placed in `$home_ICOADSb/HM_SST_Bucket/Step_06_corr_rnd/`.
 
-As the last part of this step __B.3__, run [HM_Step_06_SUM_Corr.m](HM_Step_06_SUM_Corr.m) to compute statistics of gridded SST estimates.  These statistics include the spatial pattern of 1908-1941 trends, monthly SSTs over the North Pacific and North Atlantic, monthly SSTs near East Asia and the Eastern U.S., and PDO indices.  This step will output __SUM_corr_idv_HM_SST_Bucket_\*.mat__ (central estimates) and __SUM_corr_rnd_HM_SST_Bucket_*.mat__ (uncertainty estimates) in `$home_ICOADSb/HM_SST_Bucket/`.  Again, one can skip step __B.3.__ by downloading the two files [here](https://github.com/duochanatharvard/SST_Bucket_Model).
+As the last part of this step __B.3__, run [HM_Step_07_SUM_Corr.m](HM_Step_07_SUM_Corr.m) to compute statistics of gridded SST estimates.  These statistics include the spatial pattern of 1908-1941 trends, monthly SSTs over the North Pacific and North Atlantic, monthly SSTs near East Asia and the Eastern U.S., and PDO indices.  This step will output __SUM_corr_idv_HM_SST_Bucket_\*.mat__ (central estimates) and __SUM_corr_rnd_HM_SST_Bucket_*.mat__ (uncertainty estimates) in `$home_ICOADSb/HM_SST_Bucket/`.  Again, one can skip step __B.3.__ by downloading the two files [here](https://github.com/duochanatharvard/SST_Bucket_Model).
 
 ---
 
-__B.4.__ __Global__ folder contains scripts that merge large-scale common bucket corrections to raw ICOADS3.0 and ICOADS3.0 with groupwise corrections.  The resulting datasets are called ICOADSa and ICOADSb, respectively.  
+__B.8.__ __Global__ folder contains scripts that merge large-scale common bucket corrections to raw ICOADS3.0 and ICOADS3.0 with groupwise corrections.  The resulting datasets are called ICOADSa and ICOADSb, respectively.  
 
 __[Prerequisite]__ Ensure that you have the following data or metadata placed in corresponding directories.
 
@@ -192,7 +192,7 @@ Following files are results of existing major SST estimates, i.e.,  ERSST5, COBE
 
   * __All_earlier_SST_restimates_regridded_to_5x5_grids.mat__.  We use HadSST3 ensemble members to estimate uncertainties associated with common bucket bias corrections.
 
-Run [HM_Step_07_Merge_GC.m](HM_Step_07_Merge_GC.m) to run step __B.4__.  The script first calls [GC_Step_01_SST_merge_GC_to_ICOADSb.m](Global/GC_Step_01_SST_merge_GC_to_ICOADSb.m) to generate ICOADSa and ICOADSb and then calls [GC_Step_02_add_GC_to_ICOADSa_statistics.m](GC_Step_02_add_GC_to_ICOADSa_statistics.m) to incorporate key statistics associated with common bucket corrections to __SUM_corr_idv_HM_SST_Bucket_*.mat__ and __SUM_corr_rnd_HM_SST_Bucket_*.mat__.  
+Run [HM_Step_08_Merge_GC.m](HM_Step_08_Merge_GC.m) to run step __B.4__.  The script first calls [GC_Step_01_SST_merge_GC_to_ICOADSb.m](Global/GC_Step_01_SST_merge_GC_to_ICOADSb.m) to generate ICOADSa and ICOADSb and then calls [GC_Step_02_add_GC_to_ICOADSa_statistics.m](GC_Step_02_add_GC_to_ICOADSa_statistics.m) to incorporate key statistics associated with common bucket corrections to __SUM_corr_idv_HM_SST_Bucket_*.mat__ and __SUM_corr_rnd_HM_SST_Bucket_*.mat__.  
 
 This step will generate the following files in `$home_ICOADSb/HM_SST_Bucket/`, which will be used to generate Tables and Figures and can be downloaded from [here]().
 
@@ -204,7 +204,7 @@ This step will generate the following files in `$home_ICOADSb/HM_SST_Bucket/`, w
 
 ---
 
-__B.5.__ This step will be the same as the [quick reproduction](https://github.com/duochanatharvard/Homogeneous_early_20th_century_warming#quick-reproduction-of-figures-and-tables)  that generates Fig. 1-4 and Table 1, as well as numbers reported in the main text.
+__B.5.__ This step will be the same as the [quick reproduction](#quick-reproduction-of-figures-and-tables)  that generates Fig. 1-4 and Table 1, as well as numbers reported in the main text.
 
 
 <br>

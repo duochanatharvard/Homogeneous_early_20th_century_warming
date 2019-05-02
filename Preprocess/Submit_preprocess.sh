@@ -7,7 +7,7 @@
 # which are placed in $home_ICOADS3/ICOADS_00_raw/.
 
 export partition_preprocess="huce_intel"          # TODO
-export group_account="kuang_lab"                  # TODO
+export group_account="huybers_lab"                  # TODO
 
 mkdir logs
 
