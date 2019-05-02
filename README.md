@@ -13,7 +13,9 @@ If you have issues implementing the above scripts, or identify any deficiencies,
 ## Get started:
 Run [Chan_et_al_2019_init.m](Chan_et_al_2019_init.m) to initialize the analysis.  This script will add all codes in this package to the Matlab path and set up directories structured following the below figure.  The default path will be the directory of this package; so make sure that enough disk space is available (~3GB for simply reproducing figures and tables and ~350GB for full reproduction), or, specify another directory to store the data:
 
-`Chan_et_al_2019_init($home_data)`
+```
+Chan_et_al_2019_init($home_data)
+```
 
 ![image](Directories_3.png)
 
@@ -23,7 +25,9 @@ Run [Chan_et_al_2019_init.m](Chan_et_al_2019_init.m) to initialize the analysis.
 
 After initialization, run [Quick_reproduction.m](Quick_reproduction.m), a wrapper that downloads [key results](https://dataverse.harvard.edu/api/access/datafile/3424404) and then generates Figs. 1-4 and Table 1, as well as the numbers reported in the main text.  The whole quick reproduction takes about 2 minutes to run on a laptop.
 
-`Quick_reproduction`
+```
+Quick_reproduction
+```
 
 Data downloaded are listed below:
 
@@ -60,11 +64,15 @@ Several processing steps are memory and computationally intensive.  Our analysis
 
 To reproduce our analysis, run [get_supporting_data.m](get_supporting_data.m) to download [supporting data](https://dataverse.harvard.edu/api/access/datafile/3424402), unzip and move them to their target directories.
 
-`get_supporting_data`
+```
+get_supporting_data
+```
 
 For purposes of facilitating reproduction we have also provided files resulting from our computation at various stages of the analysis (indicated by red arrows and see below for more details).  One can choose to start from any of these check points.  Run [get_check_points.m](get_check_points.m) to download [check points](https://dataverse.harvard.edu/api/access/datafile/3424709), unzip and move them to their target directories.
 
-`get_check_points`
+```
+get_check_points
+```
 
 <br>
 
@@ -122,7 +130,9 @@ __A.5.__ [ICOADS_Step_05_Buddy_check.m](Preprocess/ICOADS_Step_05_Buddy_check.m)
 
 As shown in the [flow chart](), this step contains [pairing SST measurements](), [estimating offsets using LME](), [correcting groupwise offsets and gridding](), and [merging with common bucket corrections]().  These main steps can be accessed without preprocessing ICOADS3.0 by downloading the [preprocessed .mat files](https://dataverse.harvard.edu/api/access/datafile/3424401)(35GB) and place them in `$DATA_home/ICOADS3/ICOADS_QCed/`.  When using command lines, we suggest:
 
-`wget -O $target_directory/ICOADS_QCed.tar.gz  https://dataverse.harvard.edu/api/access/datafile/3424401 `
+```
+wget -O $target_directory/ICOADS_QCed.tar.gz  https://dataverse.harvard.edu/api/access/datafile/3424401
+```
 
 In case of use in deploying these scripts on a cluster, we provide  [Submit_main.sh](Submit_main.sh), which runs the appropriate scripts on the Harvard [Odyssey Cluster](https://www.rc.fas.harvard.edu/odyssey/) that uses a [SLURM workload manager](https://slurm.schedmd.com/documentation.html).  To run the main analysis using the shell script, simply run (the command may vary on different machineries):
 
