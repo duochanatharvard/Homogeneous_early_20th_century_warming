@@ -3,7 +3,6 @@
 <br>
 
 ## Table of Contents
-=================
  * [Get started](#get-started)  
  * [Quick reproduction of Figures and Tables](#quick-reproduction-of-figures-and-tables)
  * [Overview and system requirements](#overview-and-system-requirements)
