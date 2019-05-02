@@ -58,7 +58,7 @@ For users interested in reproducing our full analysis, we provide the following 
 
 Below is the flow chart of the full analysis.
 
-![image](Flow_chart.png)
+![image](Flow_chart_2.png)
 
 Several processing steps are memory and computationally intensive.  Our analysis was run on Harvard Research Computing clusters and used 1200 CPUs and one analysis uses 150GB memory per CPU, and required 6,000 core-hours of computation and 350GB of disk space.  
 
