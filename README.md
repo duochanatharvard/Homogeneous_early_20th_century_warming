@@ -26,7 +26,7 @@ If you have issues implementing the above scripts, or identify any deficiencies,
 
 ## Get started
 
-[<span style="color:gray">Back to content</span>](#table-of-contents)
+[<span style="color:gray">Back to Table of contents</span>](#table-of-contents)
 
 Run [Chan_et_al_2019_init.m](Chan_et_al_2019_init.m) to initialize the analysis.  This script will add all codes in this package to the Matlab path and set up directories structured following the below figure.  The default path will be the directory of this package; so make sure that enough disk space is available (~3GB for simply reproducing figures and tables and ~350GB for full reproduction), or, specify another directory to store the data:
 
@@ -40,7 +40,7 @@ Chan_et_al_2019_init($DATA_home)
 
 ## Quick reproduction of Figures and Tables
 
-[<span style="color:gray">Back to content</span>](#table-of-contents)
+[<span style="color:gray">Back to Table of contents</span>](#table-of-contents)
 
 After initialization, run [Quick_reproduction.m](Quick_reproduction.m), a wrapper that downloads [key results](https://dataverse.harvard.edu/api/access/datafile/3424404) and then generates Figs. 1-4 and Table 1, as well as the numbers reported in the main text.  The whole quick reproduction takes about 2 minutes to run on a laptop.
 
@@ -75,7 +75,7 @@ For users interested in reproducing our full analysis, we provide the following 
 
 ## Overview and system requirements
 
-[<span style="color:gray">Back to content</span>](#table-of-contents)
+[<span style="color:gray">Back to Table of contents</span>](#table-of-contents)
 
 Below is the flow chart of the full analysis.
 
@@ -99,7 +99,7 @@ get_check_points
 
 ## A. Preprocess
 
-[<span style="color:gray">Back to content</span>](#table-of-contents)
+[<span style="color:gray">Back to Table of contents</span>](#table-of-contents)
 
 This folder contains scripts for downloading and preprocessing the ICOADS3.0 data.
 
@@ -152,7 +152,7 @@ __A.5.__ [ICOADS_Step_05_Buddy_check.m](Preprocess/ICOADS_Step_05_Buddy_check.m)
 
 ## B. Main Code
 
-[<span style="color:gray">Back to content</span>](#table-of-contents)
+[<span style="color:gray">Back to Table of contents</span>](#table-of-contents)
 
 As shown in the [flow chart](), this step contains [pairing SST measurements](#b1-3-pairing), [estimating offsets using LME](#b4-estimating-groupwise-offsets-using-an-lme-method), [correcting groupwise offsets and gridding](#b5-7-groupwise-corrections), and [merging with common bucket corrections](#b8-common-bucket-corrections).  These main steps can be accessed without preprocessing ICOADS3.0 by downloading the [preprocessed .mat files](https://dataverse.harvard.edu/api/access/datafile/3424401)(35GB) and place them in `$DATA_home/ICOADS3/ICOADS_QCed/`.  When using command lines, we suggest:
 
@@ -172,7 +172,7 @@ We strongly encourage you to go through the following documentation for prerequi
 
 ### B.1-3. Pairing
 
-[<span style="color:gray">Back to content</span>](#table-of-contents)
+[<span style="color:gray">Back to Table of contents</span>](#table-of-contents)
 
 The __Pairs__ folder contains functions that pair SST measurements.
 
@@ -190,7 +190,7 @@ Second, run [HM_Step_03_SUM_Pairs_dup.m](HM_Step_03_SUM_Pairs_dup.m) to combine 
 
 ### B.4. Estimating groupwise offsets using an LME method
 
-[<span style="color:gray">Back to content</span>](#table-of-contents)
+[<span style="color:gray">Back to Table of contents</span>](#table-of-contents)
 
 The __LME__ folder contains scripts that compute offsets among nation-deck groups of SST measurements using a linear-mixed-effect model ([Chan and Huybers., 2019](https://journals.ametsoc.org/doi/pdf/10.1175/JCLI-D-18-0562.1)).  
 
@@ -208,7 +208,7 @@ Run [HM_Step_04_LME_cor_err_dup.m](HM_Step_04_LME_cor_err_dup.m) to perform offs
 
 ### B.5-7. Groupwise corrections
 
-[<span style="color:gray">Back to content</span>](#table-of-contents)
+[<span style="color:gray">Back to Table of contents</span>](#table-of-contents)
 
 The __Groupwise_Correct__ folder contains scripts that apply groupwise corrections and generates 5x5-degree gridded SST estimates.  Groupwise corrections are applied to each SST measurement by removing offset estimated in step __B.4__ according to group, year, and region.   
 
@@ -232,7 +232,7 @@ Finally, run [HM_Step_07_SUM_Corr.m](HM_Step_07_SUM_Corr.m) to compute statistic
 
 ### B.8. Common bucket corrections
 
-[<span style="color:gray">Back to content</span>](#table-of-contents)
+[<span style="color:gray">Back to Table of contents</span>](#table-of-contents)
 
 The __Global__ folder contains scripts that merge large-scale common bucket corrections to raw ICOADS3.0 and ICOADS3.0 with groupwise corrections.  The resulting datasets are called ICOADSa and ICOADSb, respectively.  
 
@@ -264,7 +264,7 @@ This step will generate the following files in `$DATA_home/ICOADSb/HM_SST_Bucket
 
 ## C. Figures and Tables
 
-[<span style="color:gray">Back to content</span>](#table-of-contents)
+[<span style="color:gray">Back to Table of contents</span>](#table-of-contents)
 
 This step will be the same as the [quick reproduction](#quick-reproduction-of-figures-and-tables)  that generates Figs. 1-4 and Table 1, as well as numbers reported in the main text.
 
