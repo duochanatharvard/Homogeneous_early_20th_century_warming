@@ -16,7 +16,7 @@
 
 <br>
 
-Matlab and shell scripts associated with the paper "Correcting datasets leads to more homogeneous early 20th century sea surface warming " by Duo Chan, Elizabeth C. Kent, David I. Berry, and Peter Huybers.
+Matlab and shell scripts associated with the paper "Correcting datasets leads to more homogeneous early 20th century sea surface warming" by Duo Chan, Elizabeth C. Kent, David I. Berry, and Peter Huybers.
 
 Most of these codes are [Matlab](https://www.mathworks.com/products/matlab.html) .m files .  We provide a script [here](Quick_reproduction.m) for fast reproduction of Figures and Table in the main text.  If you are reproducing the [full analysis](#overview-and-system-requirements), which takes more computational resources and time to run, we provide two shell scripts as templates that runs the appropriate Matlab codes on clusters.  The provided shell template is for submitting jobs on the Harvard [Odyssey Cluster](https://www.rc.fas.harvard.edu/odyssey/) that uses a [SLURM workload manager](https://slurm.schedmd.com/documentation.html).    
 
@@ -54,7 +54,7 @@ Data downloaded are listed below:
 
 * __SUM_corr_rnd_HM_SST_Bucket_GC_\*.mat__: as above but for 1,000 ICOADSb correction members.
 
-* __1908_1941_Trd_TS_and_pdo_from_all_existing_datasets_20190424.mat__: key statistics for existing major SST estimates, which should be placed in `$DATA_home/ICOADSb/Miscellaneous/`.  Major SST estimates are ERSST5, COBESST2, HadISST2, and HadSST3.  We have a copy [here]() for raw data used in our analysis.  All of these datasets are regridded to 5-degree resolution, which can be downloaded from [here]().
+* __1908_1941_Trd_TS_and_pdo_from_all_existing_datasets_20190424.mat__: key statistics for existing major SST estimates, which should be placed in `$DATA_home/ICOADSb/Miscellaneous/`.  Major SST estimates are ERSST5, COBESST2, HadISST2, and HadSST3.  All of these datasets are regridded to 5-degree resolution, which can be downloaded as a part of the supporting data.
 
 * __Stats_HM_SST_Bucket_deck_level_1.mat__: statistics of numbers of measurements for each nation-deck group, which should be placed in `$DATA_home/ICOADSb/HM_SST_Bucket/`.
 
