@@ -89,7 +89,7 @@ To reproduce our analysis, run [get_supporting_data.m](get_supporting_data.m), a
 get_supporting_data
 ```
 
-For purposes of facilitating reproduction we have also provided files resulting from our computation at various stages of the analysis (indicated by red arrows and see below for more details).  One can choose to start from any of these check points.  Run [get_check_points.m](get_check_points.m), a script that downloads [check point files](https://dataverse.harvard.edu/api/access/datafile/3424709), unzips and moves these files to their target directories.
+For purposes of facilitating reproduction we have also provided files resulting from our computation at various stages of the analysis (indicated by red arrows and see below for more details).  One can choose to start from any of these checkpoints.  Run [get_check_points.m](get_check_points.m), a script that downloads [checkpoint files](https://dataverse.harvard.edu/api/access/datafile/3424709), unzips and moves these files to their target directories.
 
 ```
 get_check_points
@@ -184,7 +184,7 @@ The __Pairs__ folder contains functions that pair SST measurements.
 
 First, run [HM_Step_01_02_Run_Pairs_dup.m](HM_Step_01_02_Run_Pairs_dup.m) to pair SST measurements following [Chan and Huybers (2019)](https://journals.ametsoc.org/doi/pdf/10.1175/JCLI-D-18-0562.1).  This script first calls [HM_pair_01_Raw_Pairs_dup.m](Pairs/HM_pair_01_Raw_Pairs_dup.m) to pair SST measurements within 300km and 2days of one another and then calls [HM_pair_02_Screen_Pairs_dup.m](Pairs/HM_pair_02_Screen_Pairs_dup.m) to screen pairs such that each measurement is used at most once.  Output files are stored in `$DATA_home/ICOADSb/HM_SST_Bucket/Step_01_Raw_Pairs/` and `$DATA_home/ICOADSb/HM_SST_Bucket/Step_02_Screen_Pairs/`.  
 
-Second, run [HM_Step_03_SUM_Pairs_dup.m](HM_Step_03_SUM_Pairs_dup.m) to combine screened pairs into one file, which will be used in following steps.  The combined file, **SUM_HM_SST_Bucket_Screen_Pairs_\*.mat**, is in `$DATA_home/ICOADSb/HM_SST_Bucket/Step_03_SUM_Pairs/`.  It is a check point.
+Second, run [HM_Step_03_SUM_Pairs_dup.m](HM_Step_03_SUM_Pairs_dup.m) to combine screened pairs into one file, which will be used in following steps.  The combined file, **SUM_HM_SST_Bucket_Screen_Pairs_\*.mat**, is in `$DATA_home/ICOADSb/HM_SST_Bucket/Step_03_SUM_Pairs/`.  It is a checkpoint.
 
 <br>
 
@@ -196,13 +196,13 @@ The __LME__ folder contains scripts that compute offsets among nation-deck group
 
 __[Prerequisite]__ Ensure that you have the following data or metadata placed in corresponding directories.
 
-  *  **SUM_HM_SST_Bucket_Screen_Pairs_\*.mat**: all paired measurements, which is the output of step __B.3__ and should be placed in `$DATA_home/ICOADSb/HM_SST_Bucket/Step_03_SUM_Pairs/`.  It is a check point.
+  *  **SUM_HM_SST_Bucket_Screen_Pairs_\*.mat**: all paired measurements, which is the output of step __B.3__ and should be placed in `$DATA_home/ICOADSb/HM_SST_Bucket/Step_03_SUM_Pairs/`.  It is a checkpoint.
 
   * __OI_SST_inter_annual_decorrelation_20180316.mat__: SST covariance structures estimated from the 33-year [OI-SST](https://www.esrl.noaa.gov/psd/data/gridded/data.noaa.oisst.v2.highres.html) dataset.  It is one of the supporting data and should be placed in `$DATA_home/ICOADSb/Miscellaneous/`.  
 
 Run [HM_Step_04_LME_cor_err_dup.m](HM_Step_04_LME_cor_err_dup.m) to perform offset estimation.  This script first calls [HM_lme_bin_dup.m](LME/HM_lme_bin_dup.m) to aggregate SST pairs according to combinations of groupings, years, and regions, which reduces the number of SST differences from 17.8 million to 71,973.  This step will output **BINNED_HM_SST_Bucket_\*.mat** to directory `$DATA_home/ICOADSb/HM_SST_Bucket/Step_04_run/`.
 
-[HM_Step_04_LME_cor_err_dup.m](HM_Step_04_LME_cor_err_dup.m) then calls [HM_lme_fit_hierarchy.m](LME/HM_lme_fit_hierarchy.m) to fit the LME regression model and output groupwise offset estimates.  The output file, **LME_HM_SST_Bucket_\*.mat**, is a check point and will also be placed in `$DATA_home/ICOADSb/HM_SST_Bucket/Step_04_run/`.  Note that fitting the LME model involves inversion of a big matrix (~70,000 x 70,000) and takes 150GB of memory to run.
+[HM_Step_04_LME_cor_err_dup.m](HM_Step_04_LME_cor_err_dup.m) then calls [HM_lme_fit_hierarchy.m](LME/HM_lme_fit_hierarchy.m) to fit the LME regression model and output groupwise offset estimates.  The output file, **LME_HM_SST_Bucket_\*.mat**, is a checkpoint and will also be placed in `$DATA_home/ICOADSb/HM_SST_Bucket/Step_04_run/`.  Note that fitting the LME model involves inversion of a big matrix (~70,000 x 70,000) and takes 150GB of memory to run.
 
 <br>
 
@@ -216,7 +216,7 @@ __[Prerequisite]__ Ensure that you have the following data or metadata placed in
 
   * __IMMA1_R3.0.0_YYYY-MM_QCed.mat__: preprocessed ICOADS3.0 .mat files from running step __A.1 - A.5__.  They should be placed in `$DATA_home/ICOADS3/ICOADS_QCed/` and can be downloaded from [here](https://dataverse.harvard.edu/api/access/datafile/3424401).
 
-  * **LME_HM_SST_Bucket_\*.mat**: groupwise offset estimates using an LME method, which is the output of step __B.4__ and should be placed in `$DATA_home/ICOADSb/HM_SST_Bucket/Step_04_run/`.  It is a check point.
+  * **LME_HM_SST_Bucket_\*.mat**: groupwise offset estimates using an LME method, which is the output of step __B.4__ and should be placed in `$DATA_home/ICOADSb/HM_SST_Bucket/Step_04_run/`.  It is a checkpoint.
 
   * __internal_climate_patterns.mat__: spatial pattern of PDO in SST.  It is one of the supporting data and should be placed in `$DATA_home/ICOADSb/Miscellaneous/`.
 
@@ -226,7 +226,7 @@ First, run [HM_Step_05_Corr_Idv.m](HM_Step_05_Corr_Idv.m) to perform corrections
 
 Then, run [HM_Step_06_Corr_Rnd.m](HM_Step_06_Corr_Rnd.m) to generate a 1000-member ensemble of gridded SSTs, which can be used to estimate uncertainties of groupwise corrections.  Corrections offsets are drawn from a multivariate normal distribution that centers on the maximum likelihood estimate (see appendix in [Chan and Huybers., 2019](https://journals.ametsoc.org/doi/pdf/10.1175/JCLI-D-18-0562.1)).   This step generates SST datasets that only have randomized groupwise corrections, i.e., **corr_rnd_HM_SST_Bucket_\*.mat** in `$DATA_home/ICOADSb/HM_SST_Bucket/Step_06_corr_rnd/`.
 
-Finally, run [HM_Step_07_SUM_Corr.m](HM_Step_07_SUM_Corr.m) to compute statistics of gridded SST estimates.  These statistics include the spatial pattern of 1908-1941 trends, monthly SSTs over the North Pacific and North Atlantic, monthly SSTs near East Asia and the Eastern U.S., and PDO indices.  This step will output **SUM_corr_idv_HM_SST_Bucket_\*.mat** (central estimates) and **SUM_corr_rnd_HM_SST_Bucket_*.mat** (uncertainty estimates) in `$DATA_home/ICOADSb/HM_SST_Bucket/`.  The two files are downloaded as check points.
+Finally, run [HM_Step_07_SUM_Corr.m](HM_Step_07_SUM_Corr.m) to compute statistics of gridded SST estimates.  These statistics include the spatial pattern of 1908-1941 trends, monthly SSTs over the North Pacific and North Atlantic, monthly SSTs near East Asia and the Eastern U.S., and PDO indices.  This step will output **SUM_corr_idv_HM_SST_Bucket_\*.mat** (central estimates) and **SUM_corr_rnd_HM_SST_Bucket_*.mat** (uncertainty estimates) in `$DATA_home/ICOADSb/HM_SST_Bucket/`.  The two files are downloaded as checkpoints.
 
 <br>
 
@@ -238,9 +238,9 @@ The __Global__ folder contains scripts that merge large-scale common bucket corr
 
 __[Prerequisite]__ Ensure that you have the following data or metadata placed in corresponding directories.
 
-  * **corr_idv_HM_SST_Bucket_\*_en_0_\*.mat**: SST with only groupwise corrections using maximum likelihood estimates of offsets, which is an output from step __B.5__ and should be placed in `$DATA_home/ICOADSb/HM_SST_Bucket/Step_05_corr_idv/`.  It is a check point.
+  * **corr_idv_HM_SST_Bucket_\*_en_0_\*.mat**: SST with only groupwise corrections using maximum likelihood estimates of offsets, which is an output from step __B.5__ and should be placed in `$DATA_home/ICOADSb/HM_SST_Bucket/Step_05_corr_idv/`.  It is a checkpoint.
 
-  * **SUM_corr_rnd_HM_SST_Bucket_\*.mat** and **SUM_corr_idv_HM_SST_Bucket_\*.mat**: key statistics of SST with only groupwise corrections, which are outputs from step __B.6__ and should be placed in `$DATA_home/ICOADSb/HM_SST_Bucket/`.  The two files are downloaded as check points.
+  * **SUM_corr_rnd_HM_SST_Bucket_\*.mat** and **SUM_corr_idv_HM_SST_Bucket_\*.mat**: key statistics of SST with only groupwise corrections, which are outputs from step __B.6__ and should be placed in `$DATA_home/ICOADSb/HM_SST_Bucket/`.  The two files are downloaded as checkpoints.
 
   * __Global_Bucket_Correction_start_ratio_35_mass_small_0.65_mass_large_1.7_start_ratio_35.mat__: our reproduced 1850-2014 common bucket bias correction.  The reproduction follows [Kennedy et al., (2012)](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2010jd015220) and details can be found in Extended Data Fig.8 and Supplemental Information Table 3 in Chan et al., submitted.  These corrections involve running two bucket models, which can be accessed from [here](https://github.com/duochanatharvard/SST_Bucket_Model).  Common bucket correction is a one of the supporting data and should be placed in `$DATA_home/ICOADSb/Miscellaneous/`.
 
