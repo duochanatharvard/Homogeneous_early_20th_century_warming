@@ -28,7 +28,7 @@ If you have issues implementing the above scripts, or identify any deficiencies,
 
 [<span style="color:gray">Back to Table of contents</span>](#table-of-contents)
 
-Run [Chan_et_al_2019_init.m](Chan_et_al_2019_init.m) to initialize the analysis.  This script will add all codes in this package to the Matlab path and set up directories structured following the below figure.  The default path will be the directory of this package; so make sure that enough disk space is available (~3GB for simply reproducing figures and tables and ~350GB for full reproduction), or, specify another directory to store the data:
+Run [Chan_et_al_2019_init.m](Chan_et_al_2019_init.m) to initialize the analysis.  This script will add all codes in this package to the Matlab path and set up directories structured following the below figure.  The default path will be the directory of this package; so make sure that enough disk space is available (~1GB for simply reproducing figures and tables and ~350GB for full reproduction), or, specify another directory to store the data:
 
 ```
 Chan_et_al_2019_init($DATA_home)
@@ -42,7 +42,7 @@ Chan_et_al_2019_init($DATA_home)
 
 [<span style="color:gray">Back to Table of contents</span>](#table-of-contents)
 
-After initialization, run [Quick_reproduction.m](Quick_reproduction.m), a wrapper that downloads [key results](https://dataverse.harvard.edu/api/access/datafile/3424404) and then generates Figs. 1-4 and Table 1, as well as the numbers reported in the main text.  The whole quick reproduction takes about 2 minutes to run on a laptop.
+After initialization, run [Quick_reproduction.m](Quick_reproduction.m), a wrapper that downloads [key results](https://dataverse.harvard.edu/api/access/datafile/3424404) and then generates Figs. 1-4 and Table 1, as well as the numbers reported in the main text.  Downloading data takes about XX minutes and reproduction takes about 2 minutes to run on a laptop.
 
 ```
 Quick_reproduction

@@ -3,12 +3,17 @@ HM_load_package;
 % *************************************************************************
 % Download and unzip file
 % *************************************************************************
+tic;
 load('chan_et_al_2019_directories.mat','dir_data')
 dir_now = pwd;
 cd(dir_data) 
-!wget https://dataverse.harvard.edu/api/access/datafile/3424709
+disp(['downloading data ...'])
+url= ['https://dataverse.harvard.edu/api/access/datafile/3424709'];
+filename = 'Check_points.tar.gz';
+websave(filename,url);
 !tar -zxvf Check_points.tar.gz
 cd(dir_now)
+disp(['Downloading data takes ',num2str(toc,'%6.0f'),' seconds'])
 
 % *************************************************************************
 % Move check points

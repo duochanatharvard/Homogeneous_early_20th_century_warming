@@ -25,13 +25,18 @@ EP.do_focus = 1;                % Figure 1 focus on 1908-1941
 load('chan_et_al_2019_directories.mat','dir_data')
 dir_now = pwd;
 cd(dir_data) 
-!wget https://dataverse.harvard.edu/api/access/datafile/3424404
+disp(['downloading data ...'])
+url= ['https://dataverse.harvard.edu/api/access/datafile/3424404'];
+filename = 'Key_Results.tar.gz';
+websave(filename,url);
 !tar -zxvf Key_Results.tar.gz
 cd(dir_now)
+disp(['Downloading data takes ',num2str(toc,'%6.0f'),' seconds'])
 
 % *************************************************************************
 % Move Key Results files
 % *************************************************************************
+tic;
 dir_from = [dir_data,'Key_Results/'];        % TODO 
                                              % change to name of untarred folder
 
