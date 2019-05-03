@@ -25,13 +25,15 @@ EP.do_focus = 1;                % Figure 1 focus on 1908-1941
 load('chan_et_al_2019_directories.mat','dir_data')
 dir_now = pwd;
 cd(dir_data) 
-disp(['downloading data ...'])
-url= ['https://dataverse.harvard.edu/api/access/datafile/3424404'];
-filename = 'Key_Results.tar.gz';
-websave(filename,url);
-!tar -zxvf Key_Results.tar.gz
-cd(dir_now)
-disp(['Downloading data takes ',num2str(toc,'%6.0f'),' seconds'])
+if exist('Key_Results.tar.gz', 'file') ~= 2,
+    disp(['downloading data ...'])
+    url= ['https://dataverse.harvard.edu/api/access/datafile/3424404'];
+    filename = 'Key_Results.tar.gz';
+    websave(filename,url);
+    !tar -zxvf Key_Results.tar.gz
+    cd(dir_now)
+    disp(['Downloading data takes ',num2str(toc,'%6.0f'),' seconds'])
+end
 
 % *************************************************************************
 % Move Key Results files

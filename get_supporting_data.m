@@ -7,13 +7,15 @@ tic;
 load('chan_et_al_2019_directories.mat','dir_data')
 dir_now = pwd;
 cd(dir_data) 
-disp(['downloading data ...'])
-url= ['https://dataverse.harvard.edu/api/access/datafile/3424402'];
-filename = 'Supporting_Data.tar.gz';
-websave(filename,url);
-!tar -zxvf Supporting_Data.tar.gz
-cd(dir_now)
-disp(['Downloading data takes ',num2str(toc,'%6.0f'),' seconds'])
+if exist('Supporting_Data.tar.gz', 'file') ~= 2,
+    disp(['downloading data ...'])
+    url= ['https://dataverse.harvard.edu/api/access/datafile/3424402'];
+    filename = 'Supporting_Data.tar.gz';
+    websave(filename,url);
+    !tar -zxvf Supporting_Data.tar.gz
+    cd(dir_now)
+    disp(['Downloading data takes ',num2str(toc,'%6.0f'),' seconds'])
+end
 
 % *************************************************************************
 % Move supporting data

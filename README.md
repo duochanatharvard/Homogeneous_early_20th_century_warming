@@ -42,7 +42,7 @@ Chan_et_al_2019_init($DATA_home)
 
 [<span style="color:gray">Back to Table of contents</span>](#table-of-contents)
 
-After initialization, run [Quick_reproduction.m](Quick_reproduction.m), a wrapper that downloads [key results](https://dataverse.harvard.edu/api/access/datafile/3424404) and then generates Figs. 1-4 and Table 1, as well as the numbers reported in the main text.  Downloading data takes about XX minutes and reproduction takes about 2 minutes to run on a laptop.
+After initialization, run [Quick_reproduction.m](Quick_reproduction.m), a wrapper that downloads [key results](https://dataverse.harvard.edu/api/access/datafile/3424404) and then generates Figs. 1-4 and Table 1, as well as the numbers reported in the main text.  Size of downloaded data is about 1GB and reproduction takes about 2 minutes to run on a laptop.
 
 ```
 Quick_reproduction
