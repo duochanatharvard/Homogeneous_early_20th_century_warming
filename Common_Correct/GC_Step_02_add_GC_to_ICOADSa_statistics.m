@@ -18,9 +18,9 @@ EP.connect_kobe   = 1;
 EP.do_add_JP = 0;
 EP.yr_start = 1850;
 
-% ********************************
-% Load regional correction
-% ********************************
+% *********************************************
+% Load regional correction - statistics
+% *********************************************
 env = 0;
 dir_home = HM_OI('home',env);
 dir_load = [dir_home,'HM_SST_Bucket/'];
@@ -39,6 +39,19 @@ else
 end
 load(file_load)
 
+% ********************************************************
+% Load HvdSST regional correction as a mask 
+% ********************************************************
+dir_load2 = [HM_OI('home',env), HM_OI('corr_idv',env,[],'SST','Bucket')];
+file_load2 = [dir_load2,'corr_idv_HM_SST_Bucket_deck_level_',...
+          num2str(do_NpD),'_en_',num2str(0),...
+          '_do_rmdup_',num2str(EP.do_rmdup),...
+          '_correct_kobe_',num2str(EP.do_add_JP),...
+          '_connect_kobe_',num2str(EP.connect_kobe),...
+              '_yr_start_',num2str(EP.yr_start),'.mat'];
+load(file_load2,'WM');
+SST_MASK = squeeze(WM(:,:,1,:,:));
+
 % ********************************
 % Load global correction
 % ********************************
@@ -50,6 +63,7 @@ app = ['start_ratio_',num2str(start_ratio),'_mass_small_',num2str(mass_small),..
 dir_GC = HM_OI('Global_correction',env);
 file_GC = [dir_GC,'Global_Bucket_Correction_',app,'.mat'];
 load(file_GC,'Corr_save')
+Corr_save(isnan(SST_MASK)) = nan;
 
 % ****************************************************************
 % Compute statistics for the global correction
@@ -57,6 +71,13 @@ load(file_GC,'Corr_save')
 MASK = HM_function_mask_JP_NA;
 [GC_trd,GC_TS,GC_pdo,GC_pdo_int,GC_TS_coastal] = HM_function_postprocess_step12(-Corr_save,...
                                 -Corr_save(:,:,:,[1908:1941]-1849),MASK,env);
+                            
+aa = SST_GC - SST_Raw;
+[aa_trd,aa_TS,aa_pdo,aa_pdo_int,aa_TS_coastal] = HM_function_postprocess_step12(aa,...
+                                aa(:,:,:,[1908:1941]-1849),MASK,env);
+
+Trd_infill = HM_function_infill_and_trend(SST_GC(:,:,:,[1908:1941]-1849),3,3,0.75);
+Trd_Raw    = HM_function_infill_and_trend(SST_Raw(:,:,:,[yr_start:yr_end]-1849),3,3,0.75);
 
 % ****************************************************************
 % Compute uncertainty of statistics of global correction from HadSST3
